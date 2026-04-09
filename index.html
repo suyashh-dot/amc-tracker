@@ -177,6 +177,95 @@ canvas{display:block}
 .fm-month-pill{padding:2px 6px;border-radius:4px;font-size:8.5px;font-family:var(--mono);border:1px solid var(--border);background:var(--surface2);white-space:nowrap}
 .fm-month-pill.active-month{background:var(--accent);border-color:var(--accent);color:#fff}
 
+
+/* ── AI SEARCH ── */
+.ai-wrap{display:flex;flex-direction:column;gap:10px}
+.ai-input-row{display:flex;gap:8px}
+#ai-query{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r);font-size:12px;font-family:var(--sans);background:var(--surface2);color:var(--text);outline:none;transition:all .15s}
+#ai-query:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+#ai-query::placeholder{color:var(--text3)}
+.ai-send-btn{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:11px;font-family:var(--sans);font-weight:600;cursor:pointer;transition:opacity .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.ai-send-btn:hover{opacity:.9}
+.ai-send-btn:disabled{opacity:.5;cursor:not-allowed}
+.ai-examples{display:flex;gap:6px;flex-wrap:wrap}
+.ai-ex{padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);font-size:9.5px;color:var(--text2);cursor:pointer;transition:all .15s}
+.ai-ex:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l)}
+.ai-result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.ai-answer{font-size:11px;color:var(--text);line-height:1.7;white-space:pre-wrap}
+.ai-instruments{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-inst-chip{padding:4px 10px;border-radius:20px;background:var(--accent-l);color:var(--accent);font-size:10px;font-weight:500;cursor:pointer;border:1px solid rgba(26,86,219,.2);transition:all .15s}
+.ai-inst-chip:hover{background:var(--accent);color:#fff}
+.ai-thinking{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:11px;padding:16px}
+.ai-thinking::before{content:'';width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.ai-key-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+#ai-key-input{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:5px;font-size:10.5px;font-family:var(--mono);background:var(--surface2);color:var(--text);outline:none}
+#ai-key-input:focus{border-color:var(--accent)}
+.ai-key-save{padding:6px 12px;background:var(--accent);color:#fff;border:none;border-radius:5px;font-size:10.5px;cursor:pointer;font-family:var(--sans)}
+.ai-key-note{font-size:9.5px;color:var(--text3)}
+
+/* ── ANOMALY ── */
+.anomaly-row{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:6px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.anomaly-row:last-child{border-bottom:none}
+.anomaly-row:hover{background:var(--surface2)}
+.anomaly-badge{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.ab-doubled{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.ab-new-top{background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc}
+.ab-exited{background:var(--danger-l);color:#9b1c1c;border:1px solid #fca5a5}
+.ab-surge{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+.ab-cut{background:#fdf4ff;color:#7e22ce;border:1px solid #d8b4fe}
+.anomaly-name{font-size:10.5px;font-weight:500;color:var(--text);flex:1}
+.anomaly-meta{font-size:9px;color:var(--text3);margin-top:2px}
+.anomaly-delta{font-size:10px;font-weight:600;font-family:var(--mono)}
+
+/* ── DIFF ── */
+.diff-selector{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.diff-selector select{padding:6px 10px;border:1px solid var(--border);border-radius:5px;font-size:11px;font-family:var(--sans);background:var(--surface2);color:var(--text);outline:none;cursor:pointer}
+.diff-selector select:focus{border-color:var(--accent)}
+.diff-vs{font-size:11px;color:var(--text3);font-weight:600}
+.diff-stats{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.diff-stat{padding:6px 12px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid transparent}
+.ds-added{background:var(--accent2-l);color:#065f46;border-color:#86efac}
+.ds-removed{background:var(--danger-l);color:#9b1c1c;border-color:#fca5a5}
+.ds-increased{background:#e0f2fe;color:#0369a1;border-color:#7dd3fc}
+.ds-decreased{background:#fdf4ff;color:#7e22ce;border-color:#d8b4fe}
+.ds-unchanged{background:var(--surface2);color:var(--text3);border-color:var(--border)}
+.diff-tbl{width:100%;border-collapse:collapse;font-size:10.5px}
+.diff-tbl th{position:sticky;top:0;background:var(--surface2);padding:5px 8px;text-align:left;font-size:9.5px;font-weight:600;color:var(--text2);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.04em}
+.diff-tbl td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.diff-tbl tr:last-child td{border-bottom:none}
+.diff-tbl tr:hover td{background:var(--surface2)}
+.dt-added td{background:rgba(14,159,110,.06)}
+.dt-removed td{background:rgba(224,36,36,.06)}
+.dt-increased td{background:rgba(14,159,110,.04)}
+.dt-decreased td{background:rgba(224,36,36,.04)}
+.diff-pill{padding:1px 6px;border-radius:8px;font-size:8.5px;font-weight:700}
+.dp-added{background:var(--accent2-l);color:#065f46}
+.dp-removed{background:var(--danger-l);color:#9b1c1c}
+.dp-increased{background:#e0f2fe;color:#0369a1}
+.dp-decreased{background:#fdf4ff;color:#7e22ce}
+.dp-unchanged{background:var(--surface2);color:var(--text3)}
+
+/* ── NEWS / SENTIMENT ── */
+.news-panel{margin-top:8px}
+.news-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sentiment-badge{padding:2px 9px;border-radius:10px;font-size:9px;font-weight:700}
+.sb-bull{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+.sb-bear{background:var(--danger-l);color:#9b1c1c;border:1px solid #fca5a5}
+.sb-neutral{background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
+.sb-loading{background:var(--warn-l);color:#92400e;border:1px solid #fcd34d}
+.news-item{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-bottom:1px solid var(--border)}
+.news-item:last-child{border-bottom:none}
+.news-headline{font-size:10.5px;color:var(--text);line-height:1.5;cursor:pointer}
+.news-headline:hover{color:var(--accent);text-decoration:underline}
+.news-meta{font-size:9px;color:var(--text3);display:flex;gap:8px}
+.news-empty{font-size:10.5px;color:var(--text3);padding:12px 0;text-align:center}
+
+/* ── FUND REC ── */
+.rec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;cursor:pointer;transition:all .15s}
+.rec-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md)}
+.rec-score{font-size:16px;font-weight:700;font-family:var(--mono);color:var(--accent)}
+.rec-reason{font-size:9.5px;color:var(--text3);margin-top:3px;line-height:1.5}
+
 /* ── SIGNALS ── */
 .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .sig-row{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
@@ -343,7 +432,7 @@ canvas{display:block}
       <div>
         <div class="sl">
           <span>Watchlist</span>
-          <button class="expbtn" onclick="openWLModal()" style="font-size:9px;padding:2px 6px">+ Add</button>
+          <div style="display:flex;gap:4px"><button class="expbtn" onclick="getAIFundRecommendations()" style="font-size:9px;padding:2px 6px" title="AI Fund Recommendations">🤖</button><button class="expbtn" onclick="openWLModal()" style="font-size:9px;padding:2px 6px">+ Add</button></div>
         </div>
         <div id="wlitems"></div>
       </div>
@@ -360,6 +449,7 @@ canvas{display:block}
         <span class="data-badge" id="live-badge">● LIVE</span>
         <button class="expbtn" onclick="exportCSV()" title="Export CSV">⬇ CSV</button>
         <button class="expbtn" onclick="exportPNG()" title="Export PNG">⬇ PNG</button>
+        <button class="expbtn" onclick="openSettings()" title="Settings" style="padding:4px 9px">⚙️</button>
         <div class="user-pill" onclick="handleLogout()">
           <div class="user-dot"></div>
           <span id="user-label">User</span>
@@ -374,6 +464,9 @@ canvas{display:block}
         <button class="tabbtn" data-tab="signals" onclick="switchTab(this)">🔥 Signals</button>
         <button class="tabbtn" data-tab="sectors" onclick="switchTab(this)">🔄 Sectors</button>
         <button class="tabbtn" data-tab="firstmover" onclick="switchTab(this)">🥇 First Mover</button>
+        <button class="tabbtn" data-tab="ai" onclick="switchTab(this)">🤖 AI Search</button>
+        <button class="tabbtn" data-tab="anomaly" onclick="switchTab(this)">⚠️ Anomaly</button>
+        <button class="tabbtn" data-tab="diff" onclick="switchTab(this)">📅 Diff</button>
       </div>
     </div>
     <div id="content">
@@ -390,6 +483,9 @@ canvas{display:block}
       <div id="tab-signals" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
       <div id="tab-sectors" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
       <div id="tab-firstmover" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
+      <div id="tab-ai" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
+      <div id="tab-anomaly" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
+      <div id="tab-diff" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
     </div>
   </div>
 </div>
@@ -641,7 +737,7 @@ function buildPills() {
       document.getElementById('mclrbtn').style.display = 'none';
     }
     syncPills();
-    if (S.inst || S.tab==='signals' || S.tab==='sectors' || S.tab==='firstmover') renderAll();
+    if (S.inst || S.tab==='signals' || S.tab==='sectors' || S.tab==='firstmover' || S.tab==='ai' || S.tab==='anomaly' || S.tab==='diff') renderAll();
   });
 }
 function syncPills() {
@@ -654,7 +750,7 @@ function clearMulti() {
   S.multi = [];
   document.getElementById('mclrbtn').style.display = 'none';
   syncPills();
-  if (S.inst || S.tab==='signals' || S.tab==='sectors' || S.tab==='firstmover') renderAll();
+  if (S.inst || S.tab==='signals' || S.tab==='sectors' || S.tab==='firstmover' || S.tab==='ai' || S.tab==='anomaly' || S.tab==='diff') renderAll();
 }
 
 // ── SEARCH ────────────────────────────────────────────────────────────────
@@ -716,7 +812,7 @@ function selectInst(inst, upd=true) {
 
 // ── RENDER ALL ────────────────────────────────────────────────────────────
 function renderAll() {
-  if (S.tab === 'signals' || S.tab === 'sectors' || S.tab === 'firstmover') {
+  if (S.tab === 'signals' || S.tab === 'sectors' || S.tab === 'firstmover' || S.tab === 'ai' || S.tab === 'anomaly' || S.tab === 'diff') {
     document.getElementById('empty').style.display = 'none';
     document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
     const _standaloneTab = S.tab;
@@ -724,6 +820,9 @@ function renderAll() {
     if (_standaloneTab==='signals') renderSignals();
     else if (_standaloneTab==='sectors') renderSectors();
     else if (_standaloneTab==='firstmover') renderFirstMover();
+    else if (_standaloneTab==='ai') renderAI();
+    else if (_standaloneTab==='anomaly') renderAnomaly();
+    else if (_standaloneTab==='diff') renderDiff();
     return;
   }
   document.getElementById('empty').style.display = 'none';
@@ -876,6 +975,8 @@ function renderOverview(md, months) {
     </div>
   `;
   drawSparkline('spkc', sparkVals);
+  // Lazy-load news for selected instrument
+  setTimeout(() => loadNewsForInst(S.inst), 100);
 }
 
 // ── CHARTS ────────────────────────────────────────────────────────────────
@@ -1228,7 +1329,7 @@ function switchTab(btn) {
   document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
   S.tab=btn.dataset.tab;
-  if(S.inst || S.tab==='signals' || S.tab==='sectors' || S.tab==='firstmover') renderAll();
+  if(S.inst || ['signals','sectors','firstmover','ai','anomaly','diff'].includes(S.tab)) renderAll();
   updateHash();
 }
 function switchTabName(name) {
@@ -1773,6 +1874,730 @@ function renderFMList() {
   if(!items.length) list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">No instruments match current filters</div>';
 }
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PART 1 — AI SEARCH, ANOMALY DETECTOR, HOLDING DIFF, NEWS & SENTIMENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── API KEY MANAGEMENT ────────────────────────────────────────────────────
+function getApiKey() { return localStorage.getItem('amc_claude_key') || ''; }
+function saveApiKey(k) { localStorage.setItem('amc_claude_key', k.trim()); }
+
+// ── CLAUDE API CALL ───────────────────────────────────────────────────────
+async function callClaude(systemPrompt, userMessage, maxTokens=1500) {
+  const key = getApiKey();
+  if (!key) throw new Error('NO_KEY');
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: maxTokens,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error ${res.status}`);
+  }
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+// ── API KEY PANEL (shown when key missing) ────────────────────────────────
+function apiKeyPanel(onSave) {
+  return `<div class="card">
+    <div class="ctitle">🔑 Claude API Key Required</div>
+    <p style="font-size:10.5px;color:var(--text2);margin-bottom:10px;line-height:1.6">
+      AI features use the Anthropic Claude API. Enter your API key below — it is stored only in your browser's localStorage and never sent anywhere except Anthropic's servers.
+      Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a>
+    </p>
+    <div class="ai-key-row">
+      <input type="password" id="ai-key-input" placeholder="sk-ant-..." value="${escAttr(getApiKey())}">
+      <button class="ai-key-save" onclick="${onSave}">Save Key</button>
+    </div>
+    <div class="ai-key-note">Your key is never stored on our servers. Stored locally in your browser only.</div>
+  </div>`;
+}
+
+function saveAndRerender(renderFn) {
+  const k = document.getElementById('ai-key-input')?.value || '';
+  if (!k.startsWith('sk-')) { alert('Invalid key format. Should start with sk-ant-'); return; }
+  saveApiKey(k);
+  renderFn();
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 1 — AI NATURAL LANGUAGE SEARCH
+// ─────────────────────────────────────────────────────────────────────────
+let aiHistory = JSON.parse(localStorage.getItem('amc_ai_history') || '[]');
+let aiLoading = false;
+
+function renderAI() {
+  const pane = document.getElementById('tab-ai');
+  if (!getApiKey()) {
+    pane.innerHTML = apiKeyPanel("saveAndRerender(renderAI)") +
+      buildAIShell(true);
+    return;
+  }
+  pane.innerHTML = buildAIShell(false);
+  renderAIHistory();
+}
+
+function buildAIShell(keyMissing) {
+  const examples = [
+    "Which funds have highest banking exposure?",
+    "Show me stocks held by 30+ funds",
+    "Which sectors are funds rotating into?",
+    "Top fresh bets this month",
+    "Funds with highest IT allocation",
+    "Stocks exiting multiple funds recently"
+  ];
+  return `<div class="card">
+    <div class="ctitle">🤖 AI Natural Language Search
+      <span style="margin-left:auto;font-size:9px;color:var(--text3);font-weight:400">Powered by Claude · ${MO[MO.length-1]} data</span>
+    </div>
+    <div class="ai-examples">${examples.map(e =>
+      `<span class="ai-ex" onclick="setAIQuery('${escAttr(e)}')">${escHtml(e)}</span>`
+    ).join('')}</div>
+    <div class="ai-input-row" style="margin-top:10px">
+      <input type="text" id="ai-query" placeholder="Ask anything about fund holdings, sectors, signals…" ${keyMissing?'disabled':''}>
+      <button class="ai-send-btn" id="ai-send-btn" onclick="submitAIQuery()" ${keyMissing?'disabled':''}>
+        <span>Ask AI</span> <span style="font-size:13px">↵</span>
+      </button>
+    </div>
+    ${!keyMissing ? `<div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:9px;color:var(--text3)">Tip: press Enter to submit</span>
+      <button class="expbtn" onclick="clearAIHistory()" style="font-size:9px">Clear history</button>
+    </div>` : ''}
+  </div>
+  <div id="ai-results"></div>`;
+}
+
+function setAIQuery(q) {
+  const inp = document.getElementById('ai-query');
+  if (inp) { inp.value = q; inp.focus(); }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement?.id === 'ai-query') submitAIQuery();
+});
+
+async function submitAIQuery() {
+  const inp = document.getElementById('ai-query');
+  if (!inp) return;
+  const query = inp.value.trim();
+  if (!query || aiLoading) return;
+
+  aiLoading = true;
+  const btn = document.getElementById('ai-send-btn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span>Thinking…</span>'; }
+
+  const resultsEl = document.getElementById('ai-results');
+  resultsEl.innerHTML = `<div class="card"><div class="ai-thinking">Analysing ${Object.keys(ID).length.toLocaleString()} instruments across ${MO[MO.length-1]}…</div></div>`;
+
+  try {
+    // Build a compact context summary for Claude
+    const month = S.month;
+    const topInsts = Object.entries(ID)
+      .map(([inst, mo]) => {
+        const e = mo.find(x => x[0] === month) || mo[mo.length-1];
+        return e ? { inst, count: e[1], avgW: e[2], sector: SMAP[inst] || 'Other' } : null;
+      })
+      .filter(Boolean)
+      .sort((a,b) => b.count - a.count)
+      .slice(0, 200);
+
+    // Sector summary
+    const sectorSummary = Object.entries(
+      topInsts.reduce((acc, x) => {
+        acc[x.sector] = (acc[x.sector]||0) + x.count;
+        return acc;
+      }, {})
+    ).sort((a,b)=>b[1]-a[1]).slice(0,15)
+     .map(([s,c]) => `${s}: ${c} holdings`).join(', ');
+
+    // Fresh bets this month
+    const freshBets = (SIG[month]?.freshBets || []).slice(0,20)
+      .map(x => `${x.inst}(+${x.newCount})`).join(', ');
+    const exitAlerts = (SIG[month]?.exitAlerts || []).slice(0,15)
+      .map(x => `${x.inst}(-${x.exitCount})`).join(', ');
+
+    const topInstsList = topInsts.slice(0,80)
+      .map(x => `${x.inst}|${x.count}funds|${(x.avgW*100).toFixed(1)}%|${x.sector}`)
+      .join('\n');
+
+    const systemPrompt = `You are an expert Indian mutual fund analyst assistant for AMC Portfolio Intelligence, a tracker of ~80 Indian equity mutual funds covering 1,500+ instruments.
+
+Current data: ${month} (${topInsts.length} instruments tracked)
+Sector allocation: ${sectorSummary}
+Fresh bets this month: ${freshBets}
+Exit alerts this month: ${exitAlerts}
+
+Top instruments by fund count (format: name|fundCount|avgWeight|sector):
+${topInstsList}
+
+When answering:
+- Be specific and data-driven, cite actual numbers from the data above
+- If the query asks to show/list instruments, return them as a JSON array in this exact format at the END of your response: INSTRUMENTS:["Inst1","Inst2",...]
+- Keep responses concise but insightful (max 200 words)
+- Format numbers clearly (e.g. "47 funds", "3.2% avg weight")
+- If asked about something not in the data, say so clearly`;
+
+    const answer = await callClaude(systemPrompt, query, 800);
+
+    // Parse any instrument list from response
+    let instruments = [];
+    const instMatch = answer.match(/INSTRUMENTS:\[([^\]]+)\]/);
+    if (instMatch) {
+      try {
+        instruments = JSON.parse('[' + instMatch[1] + ']');
+      } catch(e) {}
+    }
+    const cleanAnswer = answer.replace(/INSTRUMENTS:\[[^\]]+\]/, '').trim();
+
+    // Save to history
+    const entry = { query, answer: cleanAnswer, instruments, month, ts: Date.now() };
+    aiHistory.unshift(entry);
+    aiHistory = aiHistory.slice(0, 20);
+    localStorage.setItem('amc_ai_history', JSON.stringify(aiHistory));
+
+    renderAIHistory();
+    inp.value = '';
+  } catch(e) {
+    const msg = e.message === 'NO_KEY' ? 'API key not set — click Save Key above' : e.message;
+    document.getElementById('ai-results').innerHTML =
+      `<div class="card" style="color:var(--danger);font-size:11px">⚠ ${escHtml(msg)}</div>`;
+  }
+
+  aiLoading = false;
+  if (btn) { btn.disabled = false; btn.innerHTML = '<span>Ask AI</span> <span style="font-size:13px">↵</span>'; }
+}
+
+function renderAIHistory() {
+  const el = document.getElementById('ai-results');
+  if (!el) return;
+  if (!aiHistory.length) { el.innerHTML = ''; return; }
+
+  el.innerHTML = aiHistory.map((entry, i) => `
+    <div class="card" style="border-left:3px solid var(--accent)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--accent)">"${escHtml(entry.query)}"</div>
+        <div style="font-size:9px;color:var(--text3);white-space:nowrap;margin-left:8px">${entry.month} · ${new Date(entry.ts).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</div>
+      </div>
+      <div class="ai-answer">${escHtml(entry.answer)}</div>
+      ${entry.instruments?.length ? `
+        <div style="margin-top:10px">
+          <div style="font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Mentioned Instruments</div>
+          <div class="ai-instruments">${entry.instruments.filter(i => ID[i]).map(i =>
+            `<span class="ai-inst-chip" data-action="sel-fund" data-val="${escAttr(i)}">${escHtml(i)}</span>`
+          ).join('')}</div>
+        </div>` : ''}
+    </div>
+  `).join('');
+}
+
+function clearAIHistory() {
+  aiHistory = [];
+  localStorage.removeItem('amc_ai_history');
+  renderAIHistory();
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 2 — ANOMALY DETECTOR
+// ─────────────────────────────────────────────────────────────────────────
+function renderAnomaly() {
+  const pane = document.getElementById('tab-anomaly');
+  const month = S.month;
+  const mi = MO.indexOf(month);
+  const prevM = mi > 0 ? MO[mi-1] : null;
+
+  if (!prevM) {
+    pane.innerHTML = `<div class="card"><div style="color:var(--text3);font-size:11px;padding:20px;text-align:center">No previous month available for comparison</div></div>`;
+    return;
+  }
+
+  const anomalies = detectAnomalies(month, prevM);
+
+  // Group by type
+  const types = {
+    doubled: { label: 'Position Doubled', cls: 'ab-doubled', icon: '📈', items: [] },
+    surge: { label: 'Strong New Entry (5+ funds)', cls: 'ab-surge', icon: '🚀', items: [] },
+    new_top: { label: 'Entered Top Holdings', cls: 'ab-new-top', icon: '⭐', items: [] },
+    exited: { label: 'Multi-Fund Exit (5+ funds)', cls: 'ab-exited', icon: '🚨', items: [] },
+    cut: { label: 'Major Position Cut (50%+)', cls: 'ab-cut', icon: '✂️', items: [] },
+  };
+  anomalies.forEach(a => { if (types[a.type]) types[a.type].items.push(a); });
+
+  const totalAnomalies = anomalies.length;
+
+  pane.innerHTML = `
+    <div class="card">
+      <div class="ctitle">⚠️ Anomaly Detector
+        <span style="margin-left:auto;font-size:9px;color:var(--text3);font-weight:400">${prevM} → ${month} · ${totalAnomalies} anomalies detected</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2px">
+        ${Object.entries(types).map(([,t]) =>
+          `<div style="padding:4px 10px;border-radius:6px;background:var(--surface2);font-size:9.5px">
+            ${t.icon} <b>${t.items.length}</b> ${t.label}
+          </div>`
+        ).join('')}
+      </div>
+    </div>
+    ${Object.entries(types).filter(([,t]) => t.items.length > 0).map(([type, t]) => `
+      <div class="card">
+        <div class="ctitle">${t.icon} ${t.label} <span style="margin-left:6px;font-size:9px;color:var(--text3)">${t.items.length} instruments</span></div>
+        <div style="overflow-y:auto;max-height:300px">
+          ${t.items.slice(0,30).map(a => `
+            <div class="anomaly-row" data-action="sel-fund" data-val="${escAttr(a.inst)}">
+              <span class="anomaly-badge ${t.cls}">${t.icon} ${t.label}</span>
+              <div style="flex:1;min-width:0">
+                <div class="anomaly-name">${escHtml(a.inst)}</div>
+                <div class="anomaly-meta">${escHtml(a.detail)}</div>
+              </div>
+              <div class="anomaly-delta" style="color:${a.positive?'var(--accent2)':'var(--danger)'}">
+                ${a.positive?'↑':'↓'} ${escHtml(a.change)}
+              </div>
+            </div>`
+          ).join('')}
+        </div>
+      </div>`
+    ).join('')}
+  `;
+}
+
+function detectAnomalies(month, prevM) {
+  const anomalies = [];
+
+  for (const [inst, monthly] of Object.entries(ID)) {
+    const curE  = monthly.find(e => e[0] === month);
+    const prevE = monthly.find(e => e[0] === prevM);
+    if (!curE && !prevE) continue;
+
+    const curFunds  = curE  ? new Map(curE[3].map(([f,w]) => [f,w]))  : new Map();
+    const prevFunds = prevE ? new Map(prevE[3].map(([f,w]) => [f,w])) : new Map();
+
+    const curCount  = curFunds.size;
+    const prevCount = prevFunds.size;
+    const newEntrants = [...curFunds.keys()].filter(f => !prevFunds.has(f));
+    const exits       = [...prevFunds.keys()].filter(f => !curFunds.has(f));
+
+    // 1. Strong fresh entry — 5+ new funds in one month
+    if (newEntrants.length >= 5) {
+      const avgW = newEntrants.reduce((a,f)=>a+(curFunds.get(f)||0),0)/newEntrants.length;
+      anomalies.push({
+        type:'surge', inst,
+        detail: `${newEntrants.length} funds entered simultaneously · avg ${(avgW*100).toFixed(2)}% weight`,
+        change: `+${newEntrants.length} funds`,
+        positive: true
+      });
+    }
+
+    // 2. Multi-fund exit — 5+ exits
+    if (exits.length >= 5) {
+      const avgW = exits.reduce((a,f)=>a+(prevFunds.get(f)||0),0)/exits.length;
+      anomalies.push({
+        type:'exited', inst,
+        detail: `${exits.length} funds exited · avg position was ${(avgW*100).toFixed(2)}%`,
+        change: `-${exits.length} funds`,
+        positive: false
+      });
+    }
+
+    // 3. Position doubled — avg weight doubled vs prev month
+    if (curE && prevE && prevE[2] > 0.003) {
+      const ratio = curE[2] / prevE[2];
+      if (ratio >= 2.0 && curE[1] >= 5) {
+        anomalies.push({
+          type:'doubled', inst,
+          detail: `Avg weight: ${(prevE[2]*100).toFixed(2)}% → ${(curE[2]*100).toFixed(2)}% across ${curE[1]} funds`,
+          change: `${ratio.toFixed(1)}x`,
+          positive: true
+        });
+      }
+    }
+
+    // 4. Major cut — avg weight halved
+    if (curE && prevE && prevE[2] > 0.005) {
+      const ratio = curE[2] / prevE[2];
+      if (ratio <= 0.5 && curE[1] >= 5) {
+        anomalies.push({
+          type:'cut', inst,
+          detail: `Avg weight cut: ${(prevE[2]*100).toFixed(2)}% → ${(curE[2]*100).toFixed(2)}% across ${curE[1]} funds`,
+          change: `-${((1-ratio)*100).toFixed(0)}%`,
+          positive: false
+        });
+      }
+    }
+
+    // 5. Entered top holdings — stock moved into top 10 of a fund
+    if (curE && prevE) {
+      let newTopCount = 0;
+      for (const [fund, curW] of curFunds) {
+        const prevW = prevFunds.get(fund) || 0;
+        // Consider "top holding" if weight > 3%
+        if (curW >= 0.03 && prevW < 0.03) newTopCount++;
+      }
+      if (newTopCount >= 3) {
+        anomalies.push({
+          type:'new_top', inst,
+          detail: `Entered top holdings (≥3%) in ${newTopCount} funds this month`,
+          change: `+${newTopCount} top`,
+          positive: true
+        });
+      }
+    }
+  }
+
+  // Sort by impact (entries/exits magnitude)
+  anomalies.sort((a,b) => {
+    const aVal = parseInt(a.change.replace(/[^0-9]/g,'')) || 0;
+    const bVal = parseInt(b.change.replace(/[^0-9]/g,'')) || 0;
+    return bVal - aVal;
+  });
+
+  return anomalies;
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 3 — QUARTERLY / MONTHLY HOLDING DIFF
+// ─────────────────────────────────────────────────────────────────────────
+let diffMonthA = '', diffMonthB = '', diffFund = '';
+
+function renderDiff() {
+  const pane = document.getElementById('tab-diff');
+  const funds = Object.keys(FD).sort();
+
+  // Set defaults
+  if (!diffMonthA) diffMonthA = MO.length >= 2 ? MO[MO.length-2] : MO[0];
+  if (!diffMonthB) diffMonthB = MO[MO.length-1];
+  if (!diffFund && funds.length) diffFund = funds[0];
+
+  pane.innerHTML = `
+    <div class="card">
+      <div class="ctitle">📅 Holding Diff — Month-over-Month Fund Changes</div>
+      <div class="diff-selector">
+        <select id="diff-fund" onchange="diffFund=this.value;renderDiffTable()">
+          ${funds.map(f => `<option value="${escAttr(f)}" ${f===diffFund?'selected':''}>${escHtml(f)}</option>`).join('')}
+        </select>
+        <select id="diff-ma" onchange="diffMonthA=this.value;renderDiffTable()">
+          ${MO.map(m => `<option value="${m}" ${m===diffMonthA?'selected':''}>${m}</option>`).join('')}
+        </select>
+        <span class="diff-vs">→</span>
+        <select id="diff-mb" onchange="diffMonthB=this.value;renderDiffTable()">
+          ${MO.map(m => `<option value="${m}" ${m===diffMonthB?'selected':''}>${m}</option>`).join('')}
+        </select>
+        <button class="expbtn" onclick="exportDiffCSV()">⬇ Export Diff</button>
+      </div>
+      <div id="diff-stats-row"></div>
+      <div id="diff-table-wrap" style="overflow-y:auto;max-height:460px"></div>
+    </div>
+  `;
+  renderDiffTable();
+}
+
+function renderDiffTable() {
+  const fund = diffFund;
+  const mA = diffMonthA, mB = diffMonthB;
+  if (!fund || !mA || !mB || mA === mB) return;
+
+  const holdingsA = (FD[fund]?.[mA] || []);
+  const holdingsB = (FD[fund]?.[mB] || []);
+
+  const mapA = new Map(holdingsA.map(([i,w]) => [i,w]));
+  const mapB = new Map(holdingsB.map(([i,w]) => [i,w]));
+  const allInsts = new Set([...mapA.keys(), ...mapB.keys()]);
+
+  const rows = [];
+  for (const inst of allInsts) {
+    const wA = mapA.get(inst) || 0;
+    const wB = mapB.get(inst) || 0;
+    let status;
+    if (!wA && wB)  status = 'added';
+    else if (wA && !wB) status = 'removed';
+    else if (wB > wA * 1.1) status = 'increased';
+    else if (wB < wA * 0.9) status = 'decreased';
+    else status = 'unchanged';
+    rows.push({ inst, wA, wB, delta: wB - wA, status });
+  }
+
+  // Sort: added first, removed, increased, decreased, unchanged
+  const order = { added:0, removed:1, increased:2, decreased:3, unchanged:4 };
+  rows.sort((a,b) => order[a.status]-order[b.status] || Math.abs(b.delta)-Math.abs(a.delta));
+
+  const counts = rows.reduce((acc,r) => { acc[r.status]=(acc[r.status]||0)+1; return acc; }, {});
+
+  // Stats row
+  document.getElementById('diff-stats-row').innerHTML = `
+    <div class="diff-stats">
+      <div class="diff-stat ds-added">+ ${counts.added||0} Added</div>
+      <div class="diff-stat ds-removed">− ${counts.removed||0} Removed</div>
+      <div class="diff-stat ds-increased">↑ ${counts.increased||0} Increased</div>
+      <div class="diff-stat ds-decreased">↓ ${counts.decreased||0} Decreased</div>
+      <div class="diff-stat ds-unchanged">= ${counts.unchanged||0} Unchanged</div>
+    </div>`;
+
+  const tbody = rows.map(r => {
+    const pills = {
+      added:     '<span class="diff-pill dp-added">+ ADDED</span>',
+      removed:   '<span class="diff-pill dp-removed">− REMOVED</span>',
+      increased: '<span class="diff-pill dp-increased">↑ INCREASED</span>',
+      decreased: '<span class="diff-pill dp-decreased">↓ DECREASED</span>',
+      unchanged: '<span class="diff-pill dp-unchanged">= SAME</span>',
+    };
+    const deltaColor = r.delta > 0 ? 'var(--accent2)' : r.delta < 0 ? 'var(--danger)' : 'var(--text3)';
+    return `<tr class="dt-${r.status}">
+      <td><button class="snbtn" data-action="sel-inst" data-val="${escAttr(r.inst)}">${escHtml(r.inst)}</button></td>
+      <td>${pills[r.status]}</td>
+      <td style="font-family:var(--mono)">${r.wA ? (r.wA*100).toFixed(2)+'%' : '—'}</td>
+      <td style="font-family:var(--mono)">${r.wB ? (r.wB*100).toFixed(2)+'%' : '—'}</td>
+      <td style="font-family:var(--mono);color:${deltaColor};font-weight:600">${r.delta ? (r.delta>0?'+':'')+(r.delta*100).toFixed(2)+'%' : '—'}</td>
+      <td style="font-size:9.5px;color:var(--text3)">${SMAP[r.inst]||'Other'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('diff-table-wrap').innerHTML = `
+    <table class="diff-tbl">
+      <thead><tr><th>Instrument</th><th>Change</th><th>${mA}</th><th>${mB}</th><th>Δ Weight</th><th>Sector</th></tr></thead>
+      <tbody>${tbody}</tbody>
+    </table>`;
+}
+
+function exportDiffCSV() {
+  const fund = diffFund, mA = diffMonthA, mB = diffMonthB;
+  const holdingsA = FD[fund]?.[mA] || [];
+  const holdingsB = FD[fund]?.[mB] || [];
+  const mapA = new Map(holdingsA.map(([i,w])=>[i,w]));
+  const mapB = new Map(holdingsB.map(([i,w])=>[i,w]));
+  const allInsts = new Set([...mapA.keys(),...mapB.keys()]);
+  let csv = `Fund,Instrument,Status,${mA},%,${mB},%,Delta%\n`;
+  for (const inst of allInsts) {
+    const wA = mapA.get(inst)||0, wB = mapB.get(inst)||0;
+    let status = !wA&&wB?'Added':wA&&!wB?'Removed':wB>wA*1.1?'Increased':wB<wA*0.9?'Decreased':'Unchanged';
+    csv += `"${fund}","${inst}","${status}",${(wA*100).toFixed(4)},${(wB*100).toFixed(4)},${((wB-wA)*100).toFixed(4)}\n`;
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `diff_${fund.replace(/[^a-zA-Z0-9]/g,'_')}_${mA}_${mB}.csv`;
+  a.click();
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 4 — NEWS FEED + SENTIMENT (shown in Overview tab)
+// ─────────────────────────────────────────────────────────────────────────
+const newsCache = new Map(); // inst -> { headlines, sentiment, ts }
+const NEWS_API_KEY_LS = 'amc_news_key';
+const NEWS_TTL = 30 * 60 * 1000; // 30 min cache
+
+function getNewsKey() { return localStorage.getItem(NEWS_API_KEY_LS) || ''; }
+function saveNewsKey(k) { localStorage.setItem(NEWS_API_KEY_LS, k.trim()); }
+
+async function loadNewsForInst(inst) {
+  if (!inst) return;
+  // Find or create news panel in overview
+  let newsEl = document.getElementById('news-panel-'+inst.replace(/[^a-z0-9]/gi,''));
+  if (!newsEl) return; // panel not rendered yet
+
+  const cached = newsCache.get(inst);
+  if (cached && Date.now() - cached.ts < NEWS_TTL) {
+    renderNewsPanel(inst, cached.headlines, cached.sentiment);
+    return;
+  }
+
+  const nKey = getNewsKey();
+  if (!nKey) {
+    newsEl.innerHTML = `<div class="news-empty">
+      Add a <a href="https://newsdata.io" target="_blank" style="color:var(--accent)">NewsData.io</a> API key in Settings to see news.
+      <button class="expbtn" style="margin-left:8px" onclick="promptNewsKey()">Add Key</button>
+    </div>`;
+    return;
+  }
+
+  newsEl.innerHTML = `<div class="ai-thinking" style="padding:8px">Fetching news for ${escHtml(inst)}…</div>`;
+
+  try {
+    // Clean up company name for search
+    const searchQ = inst.replace(/\s+(Limited|Ltd|LLP|Inc|Corp|Co\.)$/i,'').trim();
+    const url = `https://newsdata.io/api/1/news?apikey=${nKey}&q=${encodeURIComponent(searchQ)}&country=in&language=en&size=5`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.status !== 'success') throw new Error(data.message || 'News fetch failed');
+
+    const headlines = (data.results || []).slice(0,6).map(a => ({
+      title: a.title,
+      url: a.link,
+      source: a.source_id,
+      date: a.pubDate?.slice(0,10) || '',
+    }));
+
+    let sentiment = 'neutral';
+    if (headlines.length && getApiKey()) {
+      try {
+        const titles = headlines.map(h=>h.title).join('\n');
+        const sentRes = await callClaude(
+          'You are a financial sentiment analyser. Classify the overall sentiment of these Indian stock news headlines as exactly one word: bull, bear, or neutral. Reply with ONLY that one word.',
+          `Stock: ${inst}\nHeadlines:\n${titles}`,
+          10
+        );
+        const s = sentRes.toLowerCase().trim();
+        if (s.includes('bull')) sentiment = 'bull';
+        else if (s.includes('bear')) sentiment = 'bear';
+        else sentiment = 'neutral';
+      } catch(e) { sentiment = 'neutral'; }
+    }
+
+    newsCache.set(inst, { headlines, sentiment, ts: Date.now() });
+    renderNewsPanel(inst, headlines, sentiment);
+  } catch(e) {
+    if (newsEl) newsEl.innerHTML = `<div class="news-empty">News unavailable: ${escHtml(e.message)}</div>`;
+  }
+}
+
+function renderNewsPanel(inst, headlines, sentiment) {
+  const id = 'news-panel-'+inst.replace(/[^a-z0-9]/gi,'');
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const sMap = {
+    bull: { cls:'sb-bull', label:'🟢 Bullish' },
+    bear: { cls:'sb-bear', label:'🔴 Bearish' },
+    neutral: { cls:'sb-neutral', label:'⚪ Neutral' },
+  };
+  const s = sMap[sentiment] || sMap.neutral;
+
+  el.innerHTML = `
+    <div class="news-header">
+      <span style="font-size:10px;font-weight:600;color:var(--text2)">Recent News</span>
+      <span class="sentiment-badge ${s.cls}">${s.label}</span>
+      <button class="expbtn" style="margin-left:auto;font-size:9px" onclick="newsCache.delete('${escAttr(inst)}');loadNewsForInst('${escAttr(inst)}')">↻ Refresh</button>
+    </div>
+    ${headlines.length ? headlines.map(h => `
+      <div class="news-item">
+        <a href="${escAttr(h.url)}" target="_blank" class="news-headline">${escHtml(h.title)}</a>
+        <div class="news-meta">
+          <span>${escHtml(h.source)}</span>
+          <span>${h.date}</span>
+        </div>
+      </div>`).join('') : '<div class="news-empty">No recent news found</div>'}
+  `;
+}
+
+function promptNewsKey() {
+  const k = prompt('Enter your NewsData.io API key:');
+  if (k) { saveNewsKey(k); if (S.inst) loadNewsForInst(S.inst); }
+}
+
+// Patch renderOverview to include news panel
+const _origRenderOverview = renderOverview;
+function renderOverview(md, months) {
+  _origRenderOverview(md, months);
+  // Inject news panel card after overview renders
+  const pane = document.getElementById('tab-overview');
+  if (!pane || !S.inst) return;
+  const instId = S.inst.replace(/[^a-z0-9]/gi,'');
+  const newsCard = document.createElement('div');
+  newsCard.className = 'card news-panel';
+  newsCard.innerHTML = `<div class="ctitle">📰 News & Sentiment — ${escHtml(S.inst)}</div><div id="news-panel-${instId}"><div class="ai-thinking" style="padding:8px">Loading news…</div></div>`;
+  pane.appendChild(newsCard);
+  setTimeout(() => loadNewsForInst(S.inst), 200);
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 5 — AI FUND RECOMMENDATIONS (in Watchlist / sidebar)
+// ─────────────────────────────────────────────────────────────────────────
+async function getAIFundRecommendations() {
+  if (!getApiKey()) { alert('Set your Claude API key in the AI Search tab first.'); return; }
+  if (!S.wl.length) { alert('Add some instruments to your watchlist first.'); return; }
+
+  document.getElementById('mtitle').textContent = '🤖 AI Fund Recommendations';
+  document.getElementById('mbody').innerHTML = `<div class="ai-thinking">Analysing your watchlist and finding complementary funds…</div>`;
+  document.getElementById('moverlay').classList.add('open');
+
+  try {
+    const month = S.month;
+    const wlInsts = [...new Set(S.wl.map(w => w.inst))];
+
+    // Build watchlist context
+    const wlContext = wlInsts.map(inst => {
+      const e = ID[inst]?.find(x => x[0]===month) || ID[inst]?.[ID[inst].length-1];
+      if (!e) return null;
+      return `${inst}: ${e[1]} funds, avg ${(e[2]*100).toFixed(2)}%, sector: ${SMAP[inst]||'Other'}`;
+    }).filter(Boolean).join('\n');
+
+    // Get sector exposure of watchlist
+    const wlSectors = wlInsts.reduce((acc, inst) => {
+      const s = SMAP[inst] || 'Other';
+      acc[s] = (acc[s]||0)+1;
+      return acc;
+    }, {});
+
+    // Top funds by conviction for watchlist instruments
+    const fundScores = {};
+    wlInsts.forEach(inst => {
+      const e = ID[inst]?.find(x => x[0]===month);
+      if (!e) return;
+      e[3].forEach(([f,w]) => { fundScores[f] = (fundScores[f]||0) + w; });
+    });
+    const topFunds = Object.entries(fundScores).sort((a,b)=>b[1]-a[1]).slice(0,20)
+      .map(([f,s]) => `${f}: score ${s.toFixed(3)}`).join('\n');
+
+    const answer = await callClaude(
+      `You are an expert Indian mutual fund advisor. A user has a watchlist of stocks they track closely. Based on their watchlist composition, recommend which of the 80 tracked funds would best complement their interests — looking at funds they may be missing that have high overlap with their watched stocks, and funds that offer good diversification from their current focus. Be specific about why each fund is recommended.`,
+      `User's watchlist (${wlInsts.length} instruments):\n${wlContext}\n\nSector concentration: ${JSON.stringify(wlSectors)}\n\nFunds already aligned with watchlist:\n${topFunds}\n\nRecommend 5 funds to explore, with specific reasoning for each. Format as numbered list.`,
+      600
+    );
+
+    document.getElementById('mbody').innerHTML = `
+      <div style="font-size:10.5px;color:var(--text2);margin-bottom:12px;line-height:1.6">
+        Based on your watchlist of <b>${wlInsts.length} instruments</b> across ${Object.keys(wlSectors).length} sectors:
+      </div>
+      <div class="ai-answer" style="font-size:11px;line-height:1.7">${escHtml(answer)}</div>`;
+  } catch(e) {
+    document.getElementById('mbody').innerHTML = `<div style="color:var(--danger);font-size:11px">⚠ ${escHtml(e.message)}</div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FEATURE 6 — SETTINGS PANEL (API keys, preferences)
+// ─────────────────────────────────────────────────────────────────────────
+function openSettings() {
+  document.getElementById('mtitle').textContent = '⚙️ Settings';
+  document.getElementById('mbody').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Claude AI API Key</div>
+        <div class="ai-key-row">
+          <input type="password" id="sett-claude-key" placeholder="sk-ant-..." value="${escAttr(getApiKey())}" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:5px;font-size:10.5px;font-family:var(--mono);background:var(--surface2);color:var(--text);outline:none">
+          <button class="ai-key-save" onclick="saveApiKey(document.getElementById('sett-claude-key').value);this.textContent='Saved ✓'">Save</button>
+        </div>
+        <div class="ai-key-note">Powers AI Search, Sentiment Analysis, Fund Recommendations. Get key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">NewsData.io API Key</div>
+        <div class="ai-key-row">
+          <input type="password" id="sett-news-key" placeholder="pub_..." value="${escAttr(getNewsKey())}" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:5px;font-size:10.5px;font-family:var(--mono);background:var(--surface2);color:var(--text);outline:none">
+          <button class="ai-key-save" onclick="saveNewsKey(document.getElementById('sett-news-key').value);this.textContent='Saved ✓'">Save</button>
+        </div>
+        <div class="ai-key-note">Powers News Feed & Sentiment badges. Free tier at <a href="https://newsdata.io" target="_blank" style="color:var(--accent)">newsdata.io</a> — 200 requests/day</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Data</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="expbtn" onclick="clearAIHistory();this.textContent='Cleared ✓'">Clear AI History</button>
+          <button class="expbtn" onclick="newsCache.clear();this.textContent='Cleared ✓'">Clear News Cache</button>
+          <button class="expbtn" style="color:var(--danger);border-color:var(--danger)" onclick="if(confirm('Clear all local data?')){localStorage.clear();location.reload()}">Reset All Data</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('moverlay').classList.add('open');
+}
 
 </script>
 </body>
