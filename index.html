@@ -666,6 +666,14 @@ window.addEventListener('load', () => {
 const S = {
   inst: null,
   month: 'Feb-26', // overwritten after metadata loads
+  diffFund: '',
+  diffMonthA: '',
+  diffMonthB: '',
+  fmSearch: '',
+  fmSort: 'spread',
+  fmMinFunds: 10,
+  sigThresh: 2,
+  aiLoading: false,
   multi: [],
   tab: 'overview',
   qf: null,
@@ -975,8 +983,20 @@ function renderOverview(md, months) {
     </div>
   `;
   drawSparkline('spkc', sparkVals);
-  // Lazy-load news for selected instrument
-  setTimeout(() => loadNewsForInst(S.inst), 100);
+  // Inject news panel
+  const _overviewPane = document.getElementById('tab-overview');
+  if (_overviewPane && S.inst) {
+    const _instId = S.inst.replace(/[^a-z0-9]/gi,'');
+    // Remove old news panel if exists
+    const _oldNews = document.getElementById('news-panel-wrap-'+_instId);
+    if (_oldNews) _oldNews.remove();
+    const _newsCard = document.createElement('div');
+    _newsCard.className = 'card news-panel';
+    _newsCard.id = 'news-panel-wrap-'+_instId;
+    _newsCard.innerHTML = '<div class="ctitle">📰 News & Sentiment — '+escHtml(S.inst)+'</div><div id="news-panel-'+_instId+'"><div class="ai-thinking" style="padding:8px">Loading news…</div></div>';
+    _overviewPane.appendChild(_newsCard);
+    setTimeout(() => loadNewsForInst(S.inst), 200);
+  }
 }
 
 // ── CHARTS ────────────────────────────────────────────────────────────────
@@ -985,7 +1005,7 @@ function renderCharts() {
   pane.innerHTML = `
     <div class="cgrid">
       <div class="card"><div class="ctitle">📊 Holder Count & Avg Weight Over Time</div><canvas id="areac" height="155"></canvas></div>
-      <div class="card"><div class="ctitle">🔵 Bubble Chart — All Instruments (Feb-26)</div><canvas id="bblc" height="155"></canvas></div>
+      <div class="card"><div class="ctitle" id="bubble-chart-title">🔵 Bubble Chart — All Instruments</div><canvas id="bblc" height="155"></canvas></div>
     </div>
     <div class="card"><div class="ctitle">📉 Waterfall — Month-on-Month Holder Δ</div><canvas id="wfc" height="110"></canvas></div>
   `;
@@ -1048,14 +1068,20 @@ function drawArea() {
 }
 
 let bData=null;
+let bDataMonth=null;
 function drawBubble() {
   const c=document.getElementById('bblc'); if(!c) return;
   const ctx=c.getContext('2d');
   const W=c.parentElement.clientWidth-24; const H=155;
   c.width=W; c.height=H;
-  if (!bData) {
+  const latestM = MO[MO.length-1];
+  if (!Object.keys(ID).length) return;
+  if (!bData || bDataMonth !== latestM) {
+    bDataMonth = latestM;
+    const titleEl=document.getElementById('bubble-chart-title');
+    if(titleEl) titleEl.textContent='🔵 Bubble Chart — All Instruments ('+latestM+')';
     bData = Object.entries(ID).map(([inst,mo])=>{
-      const e=mo.find(x=>x[0]==='Feb-26')||mo[mo.length-1];
+      const e=mo.find(x=>x[0]===latestM)||mo[mo.length-1];
       if(!e) return null;
       return {inst,cnt:e[1],avg:e[2],tot:e[1]*e[2]};
     }).filter(Boolean);
@@ -1159,6 +1185,7 @@ function drawWaterfall() {
 function renderHeatmap() {
   const pane=document.getElementById('tab-heatmap');
   const data=ID[S.inst];
+  if (!data) { pane.innerHTML='<div class="card" style="color:var(--text3);padding:20px;font-size:11px">Select an instrument to view heatmap.</div>'; return; }
   const funds=new Set();
   data.forEach(e=>e[3].forEach(([f])=>funds.add(f)));
   const fl=[...funds].sort();
@@ -1340,7 +1367,7 @@ function switchTabName(name) {
 
 // ── EXPORT ────────────────────────────────────────────────────────────────
 function exportCSV() {
-  if(!S.inst) return;
+  if(!S.inst) { alert('Select an instrument first.'); return; }
   const months=S.multi.length?S.multi:[S.month];
   let csv='Instrument,Fund,Month,Weight%\n';
   months.forEach(m=>{
@@ -1365,7 +1392,7 @@ function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function escAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
 // ── SIGNALS TAB ──────────────────────────────────────────────────────────
-let sigThresh = 2;  // minimum new entrants/exits to show
+// sigThresh now in S object
 
 function renderSignals() {
   const pane = document.getElementById('tab-signals');
@@ -1376,8 +1403,12 @@ function renderSignals() {
     return;
   }
 
-  const freshBets = sig.freshBets.filter(x => x.newCount >= sigThresh);
-  const exitAlerts = sig.exitAlerts.filter(x => x.exitCount >= sigThresh);
+  if (sig.note && (!sig.freshBets || !sig.freshBets.length)) {
+    pane.innerHTML = '<div class="card" style="font-size:11px;color:var(--text3);padding:16px">ℹ️ '+sig.note+'</div>';
+    return;
+  }
+  const freshBets = (sig.freshBets||[]).filter(x => x.newCount >= S.sigThresh);
+  const exitAlerts = (sig.exitAlerts||[]).filter(x => x.exitCount >= S.sigThresh);
   const maxFresh = freshBets.length ? freshBets[0].newCount : 1;
   const maxExit  = exitAlerts.length ? exitAlerts[0].exitCount : 1;
 
@@ -1448,8 +1479,8 @@ function renderSignals() {
 
   // Month trend data: count of fresh bets / exits per month at current threshold
   const trendMonths = MO.slice(1);  // no data for first month
-  const fbCounts = trendMonths.map(m => (SIG[m]?.freshBets.filter(x=>x.newCount>=sigThresh).length)||0);
-  const exCounts = trendMonths.map(m => (SIG[m]?.exitAlerts.filter(x=>x.exitCount>=sigThresh).length)||0);
+  const fbCounts = trendMonths.map(m => (SIG[m]?.freshBets?.filter(x=>x.newCount>=S.sigThresh).length)||0);
+  const exCounts = trendMonths.map(m => (SIG[m]?.exitAlerts?.filter(x=>x.exitCount>=S.sigThresh).length)||0);
 
   pane.innerHTML = `
     <div class="card">
@@ -1549,7 +1580,7 @@ function drawTrendLine(canvasId, months, vals, color, activeMonth) {
 }
 
 function setThresh(n) {
-  sigThresh = n;
+  S.sigThresh = n;
   renderSignals();
 }
 
@@ -1785,12 +1816,13 @@ function showSectorDrilldown(sector, month) {
 }
 
 // ── FIRST MOVER ──────────────────────────────────────────────────────────
-let fmSearch = '', fmSort = 'spread', fmMinFunds = 10;
+// fmSearch/fmSort/fmMinFunds now in S object
 
 function renderFirstMover() {
   const pane = document.getElementById('tab-firstmover');
   // Get current inst context if any
   const focusInst = S.inst;
+  const fmSearch = S.fmSearch, fmSort = S.fmSort, fmMinFunds = S.fmMinFunds;
 
   pane.innerHTML = `
     <div class="card">
@@ -1798,16 +1830,16 @@ function renderFirstMover() {
         <span style="margin-left:auto;font-size:9px;color:var(--text3);font-weight:400">Who entered first? Who followed?</span>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
-        <input type="text" id="fm-search" placeholder="Filter instruments…" value="${escAttr(fmSearch)}" oninput="fmSearch=this.value;renderFMList()" style="padding:5px 9px;border:1px solid var(--border);border-radius:5px;font-size:10.5px;font-family:var(--sans);background:var(--surface2);color:var(--text);outline:none;width:190px">
+        <input type="text" id="fm-search" placeholder="Filter instruments…" value="${escAttr(fmSearch)}" oninput="S.fmSearch=this.value;renderFMList()" style="padding:5px 9px;border:1px solid var(--border);border-radius:5px;font-size:10.5px;font-family:var(--sans);background:var(--surface2);color:var(--text);outline:none;width:190px">
         <div style="display:flex;align-items:center;gap:5px;font-size:9.5px;color:var(--text2)">
           Sort:
-          <button class="qfb ${fmSort==='spread'?'act':''}" onclick="fmSort='spread';renderFMList()">Spread rate</button>
-          <button class="qfb ${fmSort==='holders'?'act':''}" onclick="fmSort='holders';renderFMList()">Max holders</button>
-          <button class="qfb ${fmSort==='recent'?'act':''}" onclick="fmSort='recent';renderFMList()">Most recent</button>
+          <button class="qfb ${fmSort==='spread'?'act':''}" onclick="S.fmSort='spread';renderFMList()">Spread rate</button>
+          <button class="qfb ${fmSort==='holders'?'act':''}" onclick="S.fmSort='holders';renderFMList()">Max holders</button>
+          <button class="qfb ${fmSort==='recent'?'act':''}" onclick="S.fmSort='recent';renderFMList()">Most recent</button>
         </div>
         <div style="display:flex;align-items:center;gap:5px;font-size:9.5px;color:var(--text2)">
           Min ${fmMinFunds} holders:
-          <input type="range" min="5" max="40" value="${fmMinFunds}" oninput="fmMinFunds=+this.value;document.getElementById('fm-min-lbl').textContent=this.value;renderFMList()" style="width:80px">
+          <input type="range" min="5" max="40" value="${fmMinFunds}" oninput="S.fmMinFunds=+this.value;document.getElementById('fm-min-lbl').textContent=this.value;renderFMList()" style="width:80px">
           <span id="fm-min-lbl">${fmMinFunds}</span>
         </div>
       </div>
@@ -1823,7 +1855,7 @@ function renderFMList() {
 
   let items = Object.entries(FM)
     .filter(([inst]) => !q || inst.toLowerCase().includes(q))
-    .filter(([, d]) => Math.max(...d.progression.map(p=>p.total)) >= fmMinFunds)
+    .filter(([, d]) => Math.max(...d.progression.map(p=>p.total)) >= (fmMinFunds||10))
     .map(([inst, d]) => {
       const maxH = Math.max(...d.progression.map(p=>p.total));
       const spreadMonths = d.progression.length;
@@ -1937,7 +1969,7 @@ function saveAndRerender(renderFn) {
 // FEATURE 1 — AI NATURAL LANGUAGE SEARCH
 // ─────────────────────────────────────────────────────────────────────────
 let aiHistory = JSON.parse(localStorage.getItem('amc_ai_history') || '[]');
-let aiLoading = false;
+// aiLoading stored in S
 
 function renderAI() {
   const pane = document.getElementById('tab-ai');
@@ -1993,9 +2025,9 @@ async function submitAIQuery() {
   const inp = document.getElementById('ai-query');
   if (!inp) return;
   const query = inp.value.trim();
-  if (!query || aiLoading) return;
+  if (!query || S.aiLoading) return;
 
-  aiLoading = true;
+  S.aiLoading = true;
   const btn = document.getElementById('ai-send-btn');
   if (btn) { btn.disabled = true; btn.innerHTML = '<span>Thinking…</span>'; }
 
@@ -2076,7 +2108,7 @@ When answering:
       `<div class="card" style="color:var(--danger);font-size:11px">⚠ ${escHtml(msg)}</div>`;
   }
 
-  aiLoading = false;
+  S.aiLoading = false;
   if (btn) { btn.disabled = false; btn.innerHTML = '<span>Ask AI</span> <span style="font-size:13px">↵</span>'; }
 }
 
@@ -2268,29 +2300,31 @@ function detectAnomalies(month, prevM) {
 // ─────────────────────────────────────────────────────────────────────────
 // FEATURE 3 — QUARTERLY / MONTHLY HOLDING DIFF
 // ─────────────────────────────────────────────────────────────────────────
-let diffMonthA = '', diffMonthB = '', diffFund = '';
+// diffMonthA/B/Fund now stored in S object (see state)
 
 function renderDiff() {
   const pane = document.getElementById('tab-diff');
   const funds = Object.keys(FD).sort();
 
-  // Set defaults
-  if (!diffMonthA) diffMonthA = MO.length >= 2 ? MO[MO.length-2] : MO[0];
-  if (!diffMonthB) diffMonthB = MO[MO.length-1];
-  if (!diffFund && funds.length) diffFund = funds[0];
+  // Set defaults using S object
+  if (!S.diffMonthA) S.diffMonthA = MO.length >= 2 ? MO[MO.length-2] : MO[0];
+  if (!S.diffMonthB) S.diffMonthB = MO[MO.length-1];
+  if (!S.diffFund && funds.length) S.diffFund = funds[0];
+  // alias for readability
+  let diffFund = S.diffFund, diffMonthA = S.diffMonthA, diffMonthB = S.diffMonthB;
 
   pane.innerHTML = `
     <div class="card">
       <div class="ctitle">📅 Holding Diff — Month-over-Month Fund Changes</div>
       <div class="diff-selector">
-        <select id="diff-fund" onchange="diffFund=this.value;renderDiffTable()">
+        <select id="diff-fund" onchange="S.diffFund=this.value;renderDiffTable()">
           ${funds.map(f => `<option value="${escAttr(f)}" ${f===diffFund?'selected':''}>${escHtml(f)}</option>`).join('')}
         </select>
-        <select id="diff-ma" onchange="diffMonthA=this.value;renderDiffTable()">
+        <select id="diff-ma" onchange="S.diffMonthA=this.value;renderDiffTable()">
           ${MO.map(m => `<option value="${m}" ${m===diffMonthA?'selected':''}>${m}</option>`).join('')}
         </select>
         <span class="diff-vs">→</span>
-        <select id="diff-mb" onchange="diffMonthB=this.value;renderDiffTable()">
+        <select id="diff-mb" onchange="S.diffMonthB=this.value;renderDiffTable()">
           ${MO.map(m => `<option value="${m}" ${m===diffMonthB?'selected':''}>${m}</option>`).join('')}
         </select>
         <button class="expbtn" onclick="exportDiffCSV()">⬇ Export Diff</button>
@@ -2303,8 +2337,8 @@ function renderDiff() {
 }
 
 function renderDiffTable() {
-  const fund = diffFund;
-  const mA = diffMonthA, mB = diffMonthB;
+  const fund = S.diffFund;
+  const mA = S.diffMonthA, mB = S.diffMonthB;
   if (!fund || !mA || !mB || mA === mB) return;
 
   const holdingsA = (FD[fund]?.[mA] || []);
@@ -2370,7 +2404,7 @@ function renderDiffTable() {
 }
 
 function exportDiffCSV() {
-  const fund = diffFund, mA = diffMonthA, mB = diffMonthB;
+  const fund = S.diffFund, mA = S.diffMonthA, mB = S.diffMonthB;
   const holdingsA = FD[fund]?.[mA] || [];
   const holdingsB = FD[fund]?.[mB] || [];
   const mapA = new Map(holdingsA.map(([i,w])=>[i,w]));
@@ -2494,20 +2528,7 @@ function promptNewsKey() {
   if (k) { saveNewsKey(k); if (S.inst) loadNewsForInst(S.inst); }
 }
 
-// Patch renderOverview to include news panel
-const _origRenderOverview = renderOverview;
-function renderOverview(md, months) {
-  _origRenderOverview(md, months);
-  // Inject news panel card after overview renders
-  const pane = document.getElementById('tab-overview');
-  if (!pane || !S.inst) return;
-  const instId = S.inst.replace(/[^a-z0-9]/gi,'');
-  const newsCard = document.createElement('div');
-  newsCard.className = 'card news-panel';
-  newsCard.innerHTML = `<div class="ctitle">📰 News & Sentiment — ${escHtml(S.inst)}</div><div id="news-panel-${instId}"><div class="ai-thinking" style="padding:8px">Loading news…</div></div>`;
-  pane.appendChild(newsCard);
-  setTimeout(() => loadNewsForInst(S.inst), 200);
-}
+// News panel injected directly in renderOverview below
 
 // ─────────────────────────────────────────────────────────────────────────
 // FEATURE 5 — AI FUND RECOMMENDATIONS (in Watchlist / sidebar)
