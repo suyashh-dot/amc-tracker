@@ -1414,7 +1414,7 @@ function renderSignals() {
 
   function threshBtns() {
     return [2,3,4,5].map(n =>
-      `<button class="thresh-btn ${sigThresh===n?'act':''}" onclick="setThresh(${n})">${n}+</button>`
+      `<button class="thresh-btn ${S.sigThresh===n?'act':''}" onclick="setThresh(${n})">${n}+</button>`
     ).join('');
   }
 
@@ -1587,8 +1587,8 @@ function setThresh(n) {
 function exportSignalsCSV() {
   const m = S.month;
   const sig = SIG[m]; if (!sig) return;
-  const fb = sig.freshBets.filter(x=>x.newCount>=sigThresh);
-  const ex = sig.exitAlerts.filter(x=>x.exitCount>=sigThresh);
+  const fb = (sig.freshBets||[]).filter(x=>x.newCount>=S.sigThresh);
+  const ex = (sig.exitAlerts||[]).filter(x=>x.exitCount>=S.sigThresh);
   let csv = 'Type,Instrument,Month,Scheme Count,Avg Weight%,Schemes\n';
   fb.forEach(s => csv+=`"Fresh Bet","${s.inst}","${m}",${s.newCount},${(s.avgNewWeight*100).toFixed(4)},"${s.newFunds.join('; ')}"\n`);
   ex.forEach(s => csv+=`"Exit Alert","${s.inst}","${m}",${s.exitCount},${(s.avgExitWeight*100).toFixed(4)},"${s.exitFunds.join('; ')}"\n`);
@@ -1851,11 +1851,12 @@ function renderFirstMover() {
 
 function renderFMList() {
   const list = document.getElementById('fm-list'); if(!list) return;
-  const q = (fmSearch||'').toLowerCase();
+  const fmSearch = S.fmSearch || '', fmSort = S.fmSort || 'spread', fmMinFunds = S.fmMinFunds || 10;
+  const q = fmSearch.toLowerCase();
 
   let items = Object.entries(FM)
     .filter(([inst]) => !q || inst.toLowerCase().includes(q))
-    .filter(([, d]) => Math.max(...d.progression.map(p=>p.total)) >= (fmMinFunds||10))
+    .filter(([, d]) => Math.max(...d.progression.map(p=>p.total)) >= fmMinFunds)
     .map(([inst, d]) => {
       const maxH = Math.max(...d.progression.map(p=>p.total));
       const spreadMonths = d.progression.length;
@@ -2318,14 +2319,14 @@ function renderDiff() {
       <div class="ctitle">📅 Holding Diff — Month-over-Month Fund Changes</div>
       <div class="diff-selector">
         <select id="diff-fund" onchange="S.diffFund=this.value;renderDiffTable()">
-          ${funds.map(f => `<option value="${escAttr(f)}" ${f===diffFund?'selected':''}>${escHtml(f)}</option>`).join('')}
+          ${funds.map(f => `<option value="${escAttr(f)}" ${f===S.diffFund?'selected':''}>${escHtml(f)}</option>`).join('')}
         </select>
         <select id="diff-ma" onchange="S.diffMonthA=this.value;renderDiffTable()">
-          ${MO.map(m => `<option value="${m}" ${m===diffMonthA?'selected':''}>${m}</option>`).join('')}
+          ${MO.map(m => `<option value="${m}" ${m===S.diffMonthA?'selected':''}>${m}</option>`).join('')}
         </select>
         <span class="diff-vs">→</span>
         <select id="diff-mb" onchange="S.diffMonthB=this.value;renderDiffTable()">
-          ${MO.map(m => `<option value="${m}" ${m===diffMonthB?'selected':''}>${m}</option>`).join('')}
+          ${MO.map(m => `<option value="${m}" ${m===S.diffMonthB?'selected':''}>${m}</option>`).join('')}
         </select>
         <button class="expbtn" onclick="exportDiffCSV()">⬇ Export Diff</button>
       </div>
