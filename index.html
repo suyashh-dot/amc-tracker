@@ -360,6 +360,405 @@ canvas{display:block}
   padding:2px 8px;border-radius:10px;background:var(--accent2-l);color:#065f46;
   font-size:9px;font-weight:600;font-family:var(--mono);
 }
+
+/* ── UX UPGRADES v4 ───────────────────────────────────────────────────────── */
+
+/* Base font upgrade */
+html, body { font-size: 12.5px; }
+
+/* ── TWO-LEVEL TAB NAV ──────────────────────────────────────────────────────*/
+.tabnav { flex-wrap: wrap; max-width: 680px; }
+.tab-group { display: flex; gap: 2px; background: var(--surface2); border-radius: 6px; padding: 2px; }
+.tab-divider { width: 1px; background: var(--border); margin: 4px 2px; }
+
+/* ── COMMAND PALETTE ────────────────────────────────────────────────────────*/
+#cmd-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 2000;
+  display: none; align-items: flex-start; justify-content: center;
+  padding-top: 80px; backdrop-filter: blur(3px);
+}
+#cmd-overlay.open { display: flex; }
+#cmd-palette {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  width: 580px; max-width: 95vw; box-shadow: 0 24px 64px rgba(0,0,0,.18);
+  overflow: hidden; display: flex; flex-direction: column; max-height: 70vh;
+}
+#cmd-input-wrap { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+#cmd-input-wrap .cmd-icon { font-size: 15px; color: var(--text3); flex-shrink: 0; }
+#cmd-input {
+  flex: 1; border: none; outline: none; font-size: 14px; font-family: var(--sans);
+  color: var(--text); background: transparent;
+}
+#cmd-input::placeholder { color: var(--text3); }
+.cmd-hint { font-size: 10px; color: var(--text3); background: var(--surface2); padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+#cmd-results { overflow-y: auto; max-height: 420px; padding: 6px; }
+.cmd-section-label { font-size: 9px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; padding: 6px 10px 4px; }
+.cmd-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px;
+  cursor: pointer; transition: background .1s;
+}
+.cmd-item:hover, .cmd-item.act { background: var(--accent-l); }
+.cmd-item .ci-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.cmd-item .ci-name { font-size: 12px; font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cmd-item .ci-meta { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.cmd-item .ci-count { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+.cmd-item .ci-sector { font-size: 9px; padding: 1px 6px; border-radius: 8px; background: var(--surface2); color: var(--text3); }
+.cmd-item .ci-spark { width: 48px; height: 18px; }
+.cmd-empty { padding: 24px; text-align: center; color: var(--text3); font-size: 11px; }
+
+/* ── RICH SEARCH DROPDOWN ───────────────────────────────────────────────────*/
+.di { padding: 7px 10px; cursor: pointer; transition: background .1s; display: flex; align-items: center; gap: 8px; }
+.di-info { flex: 1; min-width: 0; }
+.di-name { font-size: 11px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.di-sub { font-size: 9.5px; color: var(--text3); display: flex; gap: 6px; margin-top: 1px; }
+.di-spark { width: 40px; height: 16px; flex-shrink: 0; }
+
+/* ── KPI CARDS ──────────────────────────────────────────────────────────────*/
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 8px; }
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 12px 14px; position: relative; overflow: hidden;
+  transition: box-shadow .15s;
+}
+.kpi-card:hover { box-shadow: var(--shadow-md); }
+.kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius: var(--r) var(--r) 0 0; }
+.kpi-card.k-blue::before { background: var(--accent); }
+.kpi-card.k-green::before { background: var(--accent2); }
+.kpi-card.k-warn::before { background: var(--warn); }
+.kpi-card.k-red::before { background: var(--danger); }
+.kpi-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); margin-bottom: 6px; }
+.kpi-val { font-size: 26px; font-weight: 700; font-family: var(--mono); color: var(--text); line-height: 1; }
+.kpi-sub { font-size: 10px; color: var(--text3); margin-top: 3px; }
+.kpi-trend { display: flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 10.5px; font-weight: 600; }
+.kpi-trend.up { color: var(--accent2); }
+.kpi-trend.dn { color: var(--danger); }
+.kpi-trend.flat { color: var(--text3); }
+
+/* ── SCHEME TABLE SPARKLINES ────────────────────────────────────────────────*/
+.row-spark { width: 48px; height: 18px; }
+
+/* ── SIGNALS CONVICTION SCORE ───────────────────────────────────────────────*/
+.conviction-bar { width: 50px; height: 4px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.conviction-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+.cv-high { background: var(--accent2); }
+.cv-med  { background: var(--warn); }
+.cv-low  { background: var(--border2); }
+.conviction-score { font-size: 9px; font-weight: 700; font-family: var(--mono); color: var(--text3); }
+
+/* ── HEATMAP CONTROLS ───────────────────────────────────────────────────────*/
+.hm-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.hm-controls input[type=text] { padding: 5px 9px; border: 1px solid var(--border); border-radius: 5px; font-size: 10.5px; font-family: var(--sans); background: var(--surface2); color: var(--text); outline: none; width: 160px; }
+.hm-controls input[type=text]:focus { border-color: var(--accent); }
+.hm-sort-btn { padding: 4px 9px; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2); font-size: 10px; font-family: var(--sans); cursor: pointer; color: var(--text2); transition: all .15s; }
+.hm-sort-btn.act { background: var(--accent-l); border-color: var(--accent); color: var(--accent); }
+
+/* ── EMPTY STATE DASHBOARD ──────────────────────────────────────────────────*/
+#empty { flex-direction: column; align-items: stretch; padding: 16px; gap: 12px; overflow-y: auto; }
+.empty-hero { text-align: center; padding: 20px 0 8px; }
+.empty-hero .ei { font-size: 32px; }
+.empty-hero h2 { font-size: 15px; font-weight: 700; color: var(--text); margin: 6px 0 4px; }
+.empty-hero p { font-size: 11px; color: var(--text3); max-width: 360px; margin: 0 auto; line-height: 1.6; }
+.empty-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.empty-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 12px; box-shadow: var(--shadow); }
+.empty-card-title { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.top-inst-row { display: flex; align-items: center; gap: 6px; padding: 4px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s; }
+.top-inst-row:last-child { border-bottom: none; }
+.top-inst-row:hover { background: var(--accent-l); margin: 0 -4px; padding: 4px 4px; border-radius: 4px; }
+.ti-rank { width: 16px; font-size: 9px; color: var(--text3); font-family: var(--mono); text-align: right; flex-shrink: 0; }
+.ti-name { flex: 1; font-size: 10.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ti-val { font-size: 10px; color: var(--text3); font-family: var(--mono); flex-shrink: 0; }
+
+/* ── MOBILE RESPONSIVE ──────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  #app { flex-direction: column; }
+  #sidebar { width: 100% !important; min-width: 100% !important; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  #sidebar .sc { display: none; }
+  #sidebar.mobile-open .sc { display: flex; max-height: 50vh; }
+  #stoggle { display: none; }
+  .mobile-sidebar-btn { display: flex !important; }
+  #topbar { flex-wrap: wrap; gap: 6px; }
+  .tabnav { margin-left: 0; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .tabbtn { white-space: nowrap; flex-shrink: 0; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .empty-grid { grid-template-columns: 1fr; }
+  #main { min-height: 0; flex: 1; }
+}
+@media (min-width: 769px) {
+  .mobile-sidebar-btn { display: none !important; }
+}
+
+/* ── SKELETON LOADING ───────────────────────────────────────────────────────*/
+.skel { background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%); background-size: 200% 100%; animation: skelanim 1.4s infinite; border-radius: 4px; }
+@keyframes skelanim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skel-line { height: 12px; margin-bottom: 6px; }
+.skel-big { height: 28px; width: 80px; margin-bottom: 4px; }
+
+/* ── ACCOUNT / SIGNUP ───────────────────────────────────────────────────────*/
+.auth-tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.auth-tab { flex: 1; padding: 8px; text-align: center; font-size: 12px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--sans); }
+.auth-tab.act { color: var(--accent); border-bottom-color: var(--accent); }
+.auth-form { display: none; }
+.auth-form.act { display: block; }
+.signup-note { font-size: 9.5px; color: var(--text3); margin-top: 10px; line-height: 1.5; text-align: center; }
+.admin-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; background: var(--warn-l); color: var(--warn); font-size: 9px; font-weight: 600; border: 1px solid var(--warn); }
+
+/* ── LOADING SKELETON SCREEN ────────────────────────────────────────────────*/
+#loading-screen .loading-features { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+#loading-screen .lf-item { font-size: 10px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+
+/* ── WATERFALL IMPROVEMENTS ─────────────────────────────────────────────────*/
+.wf-avg-label { font-size: 9px; color: var(--warn); font-family: var(--mono); }
+
+
+/* ── SKELETON LOADING ── */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 4px;
+  display: inline-block;
+}
+.sk-line { height: 12px; margin-bottom: 8px; }
+.sk-title { height: 16px; width: 60%; margin-bottom: 12px; }
+.sk-card { padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 8px; }
+
+/* ── IMPROVED LOADING SCREEN ── */
+.loading-progress-text {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+  text-align: center;
+  min-height: 16px;
+  transition: all 0.3s;
+}
+.loading-features {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+  transition: all 0.4s;
+}
+.lf-item {
+  font-size: 10px;
+  color: var(--text3);
+  padding: 3px 8px;
+  background: var(--surface2);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: color 0.3s, border-color 0.3s;
+}
+.lf-item.loaded {
+  color: var(--accent2);
+  border-color: var(--accent2);
+}
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+  :root { --sw: 100vw; }
+  #app { flex-direction: column; }
+  #sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto;
+    max-height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #sidebar.collapsed { max-height: 52px; }
+  #sidebar.collapsed .sc { display: none; }
+  #main { flex: 1; min-height: 0; }
+  #topbar { flex-wrap: wrap; gap: 6px; padding: 8px 10px; }
+  .tabnav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 2px;
+  }
+  .tabbtn { white-space: nowrap; font-size: 9.5px; }
+  .mrow { grid-template-columns: 1fr 1fr; }
+  .cgrid { grid-template-columns: 1fr; }
+  .sig-grid { grid-template-columns: 1fr; }
+  .login-card { width: 94vw; padding: 28px 20px; }
+  #content { padding: 8px 10px; }
+}
+@media (max-width: 480px) {
+  .mrow { grid-template-columns: 1fr; }
+  .tabbtn { padding: 4px 7px; font-size: 9px; }
+  .tbtitle { font-size: 12px; }
+  .user-pill span:last-child { display: none; }
+}
+
+/* ── TWO-LEVEL TAB NAV ── */
+.tabnav {
+  display: flex;
+  gap: 2px;
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 2px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.tabbtn-group {
+  display: flex;
+  gap: 1px;
+  align-items: center;
+}
+.tab-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border2);
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+/* ── CMD PALETTE ── */
+#cmd-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 9000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  backdrop-filter: blur(3px);
+}
+#cmd-overlay.open { display: flex; }
+#cmd-box {
+  width: 560px; max-width: 94vw;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.22);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 72vh;
+}
+#cmd-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+#cmd-input-row .cmd-icon { font-size: 14px; color: var(--text3); }
+#cmd-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: var(--sans);
+  background: transparent;
+  color: var(--text);
+}
+#cmd-input::placeholder { color: var(--text3); }
+.cmd-esc {
+  font-size: 9.5px;
+  color: var(--text3);
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+#cmd-results {
+  overflow-y: auto;
+  max-height: calc(72vh - 60px);
+  padding: 6px;
+}
+.cmd-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 6px 10px 4px;
+}
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background .1s;
+  user-select: none;
+}
+.cmd-item:hover, .cmd-item.act { background: var(--accent-l); }
+.cmd-item.act .cmd-item-label { color: var(--accent); }
+.cmd-item-icon { font-size: 14px; flex-shrink: 0; width: 22px; text-align: center; }
+.cmd-item-label { flex: 1; font-size: 11.5px; font-weight: 500; }
+.cmd-item-meta { font-size: 9.5px; color: var(--text3); flex-shrink: 0; }
+.cmd-item-badge { padding: 1px 6px; border-radius: 8px; font-size: 9px; font-weight: 600; }
+.cmd-item-spark { flex-shrink: 0; }
+.cmd-kbd {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 9.5px;
+  color: var(--text3);
+  background: var(--surface2);
+  cursor: pointer;
+  transition: all .15s;
+}
+.cmd-kbd:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── AUTH TABS ── */
+.auth-tabs { display: flex; gap: 0; margin-bottom: 18px; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); background: var(--surface2); }
+.auth-tab { flex: 1; padding: 8px; border: none; background: transparent; font-size: 11px; font-family: var(--sans); font-weight: 500; color: var(--text2); cursor: pointer; transition: all .2s; }
+.auth-tab.act { background: var(--surface); color: var(--accent); font-weight: 600; }
+.auth-form { display: none; }
+.auth-form.act { display: block; }
+.signup-note { font-size: 9.5px; color: var(--text3); margin-top: 10px; line-height: 1.5; text-align: center; }
+
+/* ── USER MGMT MODAL ── */
+.user-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.user-row:last-child { border-bottom: none; }
+.user-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-l); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.user-info { flex: 1; min-width: 0; }
+.user-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.user-meta { font-size: 9.5px; color: var(--text3); }
+.user-badge { padding: 2px 7px; border-radius: 8px; font-size: 9px; font-weight: 600; }
+.ub-admin { background: var(--accent-l); color: var(--accent); }
+.ub-viewer { background: var(--surface2); color: var(--text3); }
+.copy-btn { padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface2); font-size: 9.5px; cursor: pointer; font-family: var(--mono); transition: all .15s; }
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── EMPTY DASHBOARD ── */
+.empty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; }
+.empty-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 12px; box-shadow: var(--shadow); }
+.empty-card-title { font-size: 10px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+.top-inst-row { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 5px; cursor: pointer; transition: background .12s; }
+.top-inst-row:hover { background: var(--surface2); }
+.ti-rank { width: 16px; font-size: 9.5px; color: var(--text3); font-family: var(--mono); flex-shrink: 0; }
+.ti-name { flex: 1; font-size: 10.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ti-val { font-size: 9.5px; font-family: var(--mono); color: var(--text2); flex-shrink: 0; }
+
+/* ── IMPROVED KPI CARDS ── */
+.mcrd { transition: box-shadow .15s; }
+.mcrd:hover { box-shadow: var(--shadow-md); }
+.mval { line-height: 1; }
+.trend-arrow { font-size: 11px; margin-right: 2px; }
+
+/* ── SCHEME TABLE ROW SPARK ── */
+.row-spark { display: block; }
+
+/* ── FONT SIZE BASE 12px ── */
+html, body { font-size: 12px; }
+.stbl { font-size: 11px; }
+.di { font-size: 11px; }
+.mp { font-size: 10px; }
+
 </style>
 </head>
 <body>
@@ -369,28 +768,61 @@ canvas{display:block}
   <div class="login-card">
     <div class="login-logo">A</div>
     <div class="login-title">AMC Portfolio Intelligence</div>
-    <div class="login-sub">Institutional-grade mutual fund tracker · 80 funds</div>
-    <div class="login-field">
-      <label>Username</label>
-      <input type="text" id="l-user" placeholder="Enter username" autocomplete="username">
+    <div class="login-sub">Institutional-grade mutual fund tracker</div>
+    <div class="auth-tabs">
+      <button class="auth-tab act" onclick="switchAuthTab('login',this)">Sign In</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup',this)">Create Account</button>
     </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="l-pass" placeholder="Enter password" autocomplete="current-password">
+    <!-- LOGIN FORM -->
+    <div class="auth-form act" id="auth-login">
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="l-user" placeholder="Enter username" autocomplete="username">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="l-pass" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      <button class="login-btn" onclick="attemptLogin()">Sign In</button>
     </div>
-    <button class="login-btn" onclick="attemptLogin()">Sign In</button>
-    <div class="login-err" id="login-err">Invalid username or password</div>
-    <div class="login-footer">Contact admin to get access</div>
+    <!-- SIGNUP FORM -->
+    <div class="auth-form" id="auth-signup">
+      <div class="login-field">
+        <label>Full Name</label>
+        <input type="text" id="s-name" placeholder="Your name">
+      </div>
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="s-user" placeholder="Choose a username">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="s-pass" placeholder="Create password (min 8 chars)">
+      </div>
+      <div class="login-field">
+        <label>Admin Code</label>
+        <input type="password" id="s-code" placeholder="Get this from your admin">
+      </div>
+      <button class="login-btn" onclick="attemptSignup()">Create Account</button>
+      <div class="signup-note">Accounts require admin approval code. Contact your admin for access.</div>
+    </div>
+    <div class="login-err" id="login-err"></div>
   </div>
 </div>
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen" style="display:none">
   <div class="loading-logo">A</div>
-  <div class="loading-title">Loading Dashboard</div>
+  <div class="loading-title">AMC Portfolio Intelligence</div>
   <div class="loading-step" id="loading-step">Authenticating...</div>
-  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
-  <div class="loading-sub" id="loading-sub">Please wait</div>
+  <div class="loading-bar-wrap" style="width:260px"><div class="loading-bar" id="loading-bar"></div></div>
+  <div class="loading-sub" id="loading-sub">Fetching market data</div>
+  <div class="loading-features" id="loading-features">
+    <span class="lf-item" id="lf-inst">📊 Loading...</span>
+    <span class="lf-item" id="lf-funds">🏦 Funds</span>
+    <span class="lf-item" id="lf-months">📅 Months</span>
+    <span class="lf-item">🔥 Signals</span>
+  </div>
 </div>
 
 <!-- MAIN APP (hidden until loaded) -->
@@ -441,14 +873,19 @@ canvas{display:block}
 
   <div id="main">
     <div id="topbar">
+      <button class="mobile-sidebar-btn expbtn" onclick="document.getElementById('sidebar').classList.toggle('mobile-open')" style="display:none;margin-right:4px">☰</button>
       <div>
         <div class="tbtitle" id="tbtitle">Select an Instrument</div>
         <div class="tbsub" id="tbsub">AMC Portfolio Intelligence</div>
       </div>
       <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
         <span class="data-badge" id="live-badge">● LIVE</span>
+        <button class="cmd-kbd" onclick="openCmdPalette()" title="Command Palette (Cmd+K / Ctrl+K)">
+          <span>⌘</span><span>K</span>
+        </button>
         <button class="expbtn" onclick="exportCSV()" title="Export CSV">⬇ CSV</button>
         <button class="expbtn" onclick="exportPNG()" title="Export PNG">⬇ PNG</button>
+        <button class="expbtn" id="user-mgmt-btn" onclick="openUserManagement()" style="display:none" title="User Management">👥</button>
         <button class="expbtn" onclick="openSettings()" title="Settings" style="padding:4px 9px">⚙️</button>
         <div class="user-pill" onclick="handleLogout()">
           <div class="user-dot"></div>
@@ -457,24 +894,32 @@ canvas{display:block}
         </div>
       </div>
       <div class="tabnav">
-        <button class="tabbtn act" data-tab="overview" onclick="switchTab(this)">Overview</button>
-        <button class="tabbtn" data-tab="charts" onclick="switchTab(this)">Charts</button>
-        <button class="tabbtn" data-tab="heatmap" onclick="switchTab(this)">Heatmap</button>
-        <button class="tabbtn" data-tab="funds" onclick="switchTab(this)">Funds</button>
-        <button class="tabbtn" data-tab="signals" onclick="switchTab(this)">🔥 Signals</button>
-        <button class="tabbtn" data-tab="sectors" onclick="switchTab(this)">🔄 Sectors</button>
-        <button class="tabbtn" data-tab="firstmover" onclick="switchTab(this)">🥇 First Mover</button>
-        <button class="tabbtn" data-tab="ai" onclick="switchTab(this)">🤖 AI Search</button>
-        <button class="tabbtn" data-tab="anomaly" onclick="switchTab(this)">⚠️ Anomaly</button>
-        <button class="tabbtn" data-tab="diff" onclick="switchTab(this)">📅 Diff</button>
+        <div class="tabbtn-group">
+          <button class="tabbtn act" data-tab="overview" onclick="switchTab(this)">Overview</button>
+          <button class="tabbtn" data-tab="charts" onclick="switchTab(this)">Charts</button>
+          <button class="tabbtn" data-tab="heatmap" onclick="switchTab(this)">Heatmap</button>
+          <button class="tabbtn" data-tab="funds" onclick="switchTab(this)">Funds</button>
+          <button class="tabbtn" data-tab="diff" onclick="switchTab(this)">Diff</button>
+          <button class="tabbtn" data-tab="anomaly" onclick="switchTab(this)">⚠️ Anomaly</button>
+        </div>
+        <div class="tab-divider"></div>
+        <div class="tabbtn-group">
+          <button class="tabbtn" data-tab="signals" onclick="switchTab(this)">🔥 Signals</button>
+          <button class="tabbtn" data-tab="sectors" onclick="switchTab(this)">🔄 Sectors</button>
+          <button class="tabbtn" data-tab="firstmover" onclick="switchTab(this)">🥇 First Mover</button>
+          <button class="tabbtn" data-tab="ai" onclick="switchTab(this)">🤖 AI</button>
+        </div>
       </div>
     </div>
     <div id="content">
-      <div id="empty">
-        <div class="ei">📊</div>
-        <h2>AMC Portfolio Intelligence</h2>
-        <p>Search for any stock or instrument and explore cross-fund holdings, concentration risk, momentum trends and more.</p>
-        <p style="font-size:10px;color:var(--text3)" id="empty-stats">Loading data...</p>
+      <div id="empty" style="display:none">
+        <div class="empty-hero">
+          <div class="ei">📊</div>
+          <h2>AMC Portfolio Intelligence</h2>
+          <p>Search any stock to explore cross-fund holdings, signals and trends. Or explore below.</p>
+          <p style="font-size:10px;color:var(--text3)" id="empty-stats">Loading data...</p>
+        </div>
+        <div class="empty-grid" id="empty-grid"></div>
       </div>
       <div id="tab-overview" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
       <div id="tab-charts" class="tabp" style="display:none;flex-direction:column;gap:10px"></div>
@@ -490,6 +935,16 @@ canvas{display:block}
   </div>
 </div>
 
+<div id="cmd-overlay" onclick="if(event.target===this)closeCmdPalette()">
+  <div id="cmd-palette">
+    <div id="cmd-input-wrap">
+      <span class="cmd-icon">⌘</span>
+      <input type="text" id="cmd-input" placeholder="Search instruments, switch tabs, run actions…" autocomplete="off">
+      <span class="cmd-hint">ESC to close</span>
+    </div>
+    <div id="cmd-results"></div>
+  </div>
+</div>
 <div id="btooltip"></div>
 <div id="moverlay">
   <div id="modal">
@@ -559,9 +1014,13 @@ async function attemptLogin() {
       errEl.style.display = 'block';
       btn.textContent = 'Sign In'; btn.disabled = false; return;
     }
-    setSession(username, user.name || username);
+    const sess = setSession(username, user.name || username);
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('user-label').textContent = user.name || username;
+    if (user.role === 'admin') {
+      const btn = document.getElementById('user-mgmt-btn');
+      if (btn) btn.style.display = '';
+    }
     loadAllData();
   } catch(e) {
     errEl.textContent = 'Login failed: ' + e.message;
@@ -642,6 +1101,7 @@ async function loadAllData() {
     document.getElementById('app').style.display = 'flex';
 
     initDashboard();
+    renderEmptyDashboard();
 
   } catch(e) {
     document.getElementById('loading-step').textContent = '✗ Error: ' + e.message;
@@ -656,9 +1116,12 @@ window.addEventListener('load', () => {
   if (session) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('user-label').textContent = session.name || session.username;
+    if (session.role === 'admin') {
+      const btn = document.getElementById('user-mgmt-btn');
+      if (btn) btn.style.display = '';
+    }
     loadAllData();
   }
-  // else: login screen stays visible
 });
 
 // ── DASHBOARD LOGIC ───────────────────────────────────────────────────────
@@ -690,8 +1153,11 @@ function initDashboard() {
   document.getElementById('stoggle').onclick = () => document.getElementById('sidebar').classList.toggle('collapsed');
   document.getElementById('moverlay').onclick = e => { if(e.target===document.getElementById('moverlay')) closeModal(); };
   window.addEventListener('keydown', e => {
-    if (e.key==='/' && document.activeElement.tagName!=='INPUT') { e.preventDefault(); document.getElementById('isrch').focus(); }
-    if (e.key==='Escape') closeModal();
+    if (e.key==='/' && document.activeElement.tagName!=='INPUT' && !document.getElementById('cmd-overlay').classList.contains('open')) {
+      e.preventDefault(); document.getElementById('isrch').focus();
+    }
+    if (e.key==='Escape') { closeModal(); closeCmdPalette(); }
+    if ((e.metaKey||e.ctrlKey) && e.key==='k') { e.preventDefault(); openCmdPalette(); }
   });
   loadHash();
   window.addEventListener('hashchange', loadHash);
@@ -762,6 +1228,59 @@ function clearMulti() {
 }
 
 // ── SEARCH ────────────────────────────────────────────────────────────────
+function fuzzyMatch(inst, q) {
+  const lo = inst.toLowerCase();
+  // exact substring match
+  if (lo.includes(q)) return true;
+  // remove spaces/dots and match (hdfcbank -> HDFC Bank)
+  const compact = lo.replace(/[^a-z0-9]/g,'');
+  const qCompact = q.replace(/[^a-z0-9]/g,'');
+  if (compact.includes(qCompact)) return true;
+  // initials match: "hul" matches "Hindustan Unilever Limited"
+  const words = lo.split(/\s+/);
+  const initials = words.map(w=>w[0]||'').join('');
+  if (initials.startsWith(q)) return true;
+  return false;
+}
+
+function buildSearchDropdownItem(h, i) {
+  const data = ID[h];
+  const latest = data ? data[data.length-1] : null;
+  const count = latest ? latest[1] : 0;
+  const avgW = latest ? (latest[2]*100).toFixed(1) : '—';
+  const sector = SMAP[h] || '';
+  const sectorShort = sector.length > 14 ? sector.slice(0,13)+'…' : sector;
+  return `<div class="di" data-idx="${i}" data-inst="${escAttr(h)}">
+    <canvas class="di-spark" width="40" height="16" data-inst="${escAttr(h)}"></canvas>
+    <div class="di-info">
+      <div class="di-name">${escHtml(h)}</div>
+      <div class="di-sub">
+        <span>${count} funds</span>
+        <span>${avgW}% avg</span>
+        ${sectorShort ? `<span>${escHtml(sectorShort)}</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function drawDropdownSpark(canvas, inst) {
+  const data = ID[inst];
+  if (!data || !canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 40, H = 16;
+  ctx.clearRect(0,0,W,H);
+  const vals = data.map(e=>e[1]);
+  const mn = Math.min(...vals), mx = Math.max(...vals), rng = mx-mn||1;
+  ctx.strokeStyle = '#1a56db'; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  vals.forEach((v,i)=>{
+    const x=(i/(vals.length-1))*(W-2)+1;
+    const y=H-2-((v-mn)/rng)*(H-4);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+}
+
 function setupSearch() {
   const inp = document.getElementById('isrch');
   const dl = document.getElementById('ddlist');
@@ -774,18 +1293,19 @@ function setupSearch() {
       const q = inp.value.trim().toLowerCase();
       clr.style.display = q ? 'block' : 'none';
       if (!q) { dl.style.display='none'; return; }
-      const hits = INSTS.filter(i => i.toLowerCase().includes(q)).slice(0,60);
+      const hits = INSTS.filter(i => fuzzyMatch(i, q)).slice(0, 50);
       aidx = -1;
       if (!hits.length) { dl.style.display='none'; return; }
-      dl.innerHTML = hits.map((h,i) => {
-        const mo = ID[h] ? ID[h].length : 0;
-        return `<div class="di" data-idx="${i}" data-inst="${escAttr(h)}">${escHtml(h)}<span class="dic">${mo}mo</span></div>`;
-      }).join('');
+      dl.innerHTML = hits.map((h,i) => buildSearchDropdownItem(h,i)).join('');
+      // Draw sparklines after DOM renders
+      requestAnimationFrame(() => {
+        dl.querySelectorAll('canvas.di-spark').forEach(c => drawDropdownSpark(c, c.dataset.inst));
+      });
       dl.querySelectorAll('.di').forEach(el => {
         el.addEventListener('click', () => { selectInst(el.dataset.inst); dl.style.display='none'; });
       });
       dl.style.display = 'block';
-    }, 150);
+    }, 120);
   });
 
   inp.addEventListener('keydown', e => {
@@ -809,6 +1329,10 @@ function setupSearch() {
 function selectInst(inst, upd=true) {
   if (!ID[inst]) return;
   S.inst = inst;
+  // Show skeleton immediately for perceived performance
+  document.getElementById('empty').style.display = 'none';
+  document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
+  if (S.tab === 'overview') showOverviewSkeleton();
   document.getElementById('isrch').value = inst;
   document.getElementById('srchclr').style.display = 'block';
   S.rv = [inst, ...S.rv.filter(x=>x!==inst)].slice(0,8);
@@ -821,7 +1345,7 @@ function selectInst(inst, upd=true) {
 // ── RENDER ALL ────────────────────────────────────────────────────────────
 function renderAll() {
   if (S.tab === 'signals' || S.tab === 'sectors' || S.tab === 'firstmover' || S.tab === 'ai' || S.tab === 'anomaly' || S.tab === 'diff') {
-    document.getElementById('empty').style.display = 'none';
+    const emEl = document.getElementById('empty'); if(emEl) emEl.style.display = 'none';
     document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
     const _standaloneTab = S.tab;
     document.getElementById('tab-'+_standaloneTab).style.display = 'flex';
@@ -833,7 +1357,7 @@ function renderAll() {
     else if (_standaloneTab==='diff') renderDiff();
     return;
   }
-  document.getElementById('empty').style.display = 'none';
+  const emEl2 = document.getElementById('empty'); if(emEl2) emEl2.style.display = 'none';
   document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
   const pane = document.getElementById('tab-'+S.tab);
   pane.style.display = 'flex';
@@ -923,6 +1447,7 @@ function renderOverview(md, months) {
     return `<tr>
       <td><button class="snbtn" data-action="fund-drill" data-val="${escAttr(item.f)}">${escHtml(item.f)}</button></td>
       <td><span style="font-family:var(--mono)">${(item.w*100).toFixed(2)}%</span></td>
+      <td><canvas class="row-spark" width="48" height="18" data-fund="${escAttr(item.f)}" data-inst="${escAttr(S.inst)}"></canvas></td>
       <td><div class="wbwrap"><div class="wb" style="width:${bp}%"></div></div></td>
       <td>${deltaHtml}</td>
       <td><button class="expbtn" data-action="wl-toggle" data-val="${escAttr(item.f)}" style="padding:2px 5px;font-size:9px">${isWL?'★':'☆'}</button></td>
@@ -930,11 +1455,29 @@ function renderOverview(md, months) {
   }).join('');
 
   pane.innerHTML = `
-    <div class="mrow">
-      <div class="mcrd"><div class="mlbl">Holder Funds</div><div class="mval">${md.holderCount}</div><div class="msub mdelta ${momChg>0?'pos':momChg<0?'neg':''}">${momChg!==0?(momChg>0?'↑+':'↓')+Math.abs(momChg)+' vs prev':'—'}</div></div>
-      <div class="mcrd"><div class="mlbl">Avg Weight</div><div class="mval">${(md.avgWeight*100).toFixed(2)}%</div><div class="msub">across holders</div></div>
-      <div class="mcrd"><div class="mlbl">Max Weight</div><div class="mval">${md.funds.length?(md.funds[0].w*100).toFixed(2)+'%':'—'}</div><div class="msub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px">${md.funds.length?md.funds[0].f:''}</div></div>
-      <div class="mcrd"><div class="mlbl">Total Alloc</div><div class="mval">${(totalAlloc*100).toFixed(1)}%</div><div class="msub">sum of all weights</div></div>
+    <div class="kpi-row">
+      <div class="kpi-card k-blue">
+        <div class="kpi-label">Holder Funds</div>
+        <div class="kpi-val">${md.holderCount}</div>
+        <div class="kpi-trend ${momChg>0?'up':momChg<0?'dn':'flat'}">
+          ${momChg>0?'▲':momChg<0?'▼':'→'} ${momChg!==0?Math.abs(momChg)+' vs '+prevM:'no change'}
+        </div>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-label">Avg Weight</div>
+        <div class="kpi-val">${(md.avgWeight*100).toFixed(2)}%</div>
+        <div class="kpi-sub">across all holders</div>
+      </div>
+      <div class="kpi-card k-warn">
+        <div class="kpi-label">Max Weight</div>
+        <div class="kpi-val">${md.funds.length?(md.funds[0].w*100).toFixed(2)+'%':'—'}</div>
+        <div class="kpi-sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${md.funds.length?escHtml(md.funds[0].f.split(' ').slice(0,3).join(' ')):''}</div>
+      </div>
+      <div class="kpi-card k-red">
+        <div class="kpi-label">Total Allocation</div>
+        <div class="kpi-val">${(totalAlloc*100).toFixed(1)}%</div>
+        <div class="kpi-sub">sum across ${md.holderCount} funds</div>
+      </div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -976,13 +1519,33 @@ function renderOverview(md, months) {
       </div>
       <div id="stblwrap">
         <table class="stbl">
-          <thead><tr><th>Scheme</th><th>Weight</th><th>Bar</th><th>MoM Δ</th><th></th></tr></thead>
+          <thead><tr><th>Scheme</th><th>Weight</th><th>Trend</th><th>Bar</th><th>MoM Δ</th><th></th></tr></thead>
           <tbody>${tableRows}</tbody>
         </table>
       </div>
     </div>
   `;
   drawSparkline('spkc', sparkVals);
+  // Draw per-fund sparklines in scheme table
+  requestAnimationFrame(() => {
+    document.querySelectorAll('canvas.row-spark').forEach(c => {
+      const fund = c.dataset.fund, inst = c.dataset.inst;
+      if (!fund || !inst || !FD[fund]) return;
+      const ctx = c.getContext('2d'); ctx.clearRect(0,0,48,18);
+      const vals = MO.map(m => { const fw = FD[fund][m]?.find(x=>x[0]===inst); return fw ? fw[1]*100 : null; });
+      const valid = vals.filter(v=>v!==null);
+      if (!valid.length) return;
+      const mn = Math.min(...valid), mx = Math.max(...valid), rng = mx-mn||0.01;
+      ctx.strokeStyle='#1a56db'; ctx.lineWidth=1.2;
+      ctx.beginPath(); let s=false;
+      vals.forEach((v,i)=>{
+        if(v===null)return;
+        const x=(i/(vals.length-1))*46+1, y=16-((v-mn)/rng)*14;
+        if(!s){ctx.moveTo(x,y);s=true;}else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+    });
+  });
   // Inject news panel
   const _overviewPane = document.getElementById('tab-overview');
   if (_overviewPane && S.inst) {
@@ -1179,21 +1742,43 @@ function drawWaterfall() {
   ctx.fillText('+'+maxA,pad.l-3,pad.t+4);
   ctx.fillText('0',pad.l-3,zero+4);
   ctx.fillText('-'+maxA,pad.l-3,H-pad.b+4);
+  // Add avg reference line
+  setTimeout(addWaterfallAvgLine, 0);
 }
 
 // ── HEATMAP ───────────────────────────────────────────────────────────────
+let hmSearch='', hmSort='weight';
 function renderHeatmap() {
   const pane=document.getElementById('tab-heatmap');
   const data=ID[S.inst];
   if (!data) { pane.innerHTML='<div class="card" style="color:var(--text3);padding:20px;font-size:11px">Select an instrument to view heatmap.</div>'; return; }
   const funds=new Set();
   data.forEach(e=>e[3].forEach(([f])=>funds.add(f)));
-  const fl=[...funds].sort();
+  // Filter by search
+  let fl=[...funds].filter(f=>!hmSearch||f.toLowerCase().includes(hmSearch.toLowerCase()));
+  // Sort
+  const curEntry = data.find(e=>e[0]===S.month);
+  if(hmSort==='weight' && curEntry){
+    const wmap=new Map(curEntry[3].map(([f,w])=>[f,w]));
+    fl.sort((a,b)=>(wmap.get(b)||0)-(wmap.get(a)||0));
+  } else if(hmSort==='first'){
+    const firstMap={};
+    data.forEach(e=>e[3].forEach(([f])=>{ if(!firstMap[f]) firstMap[f]=e[0]; }));
+    fl.sort((a,b)=>MO.indexOf(firstMap[a]||MO[0])-MO.indexOf(firstMap[b]||MO[0]));
+  } else {
+    fl.sort();
+  }
   const maxW=Math.max(...data.flatMap(e=>e[3].map(([,w])=>w)));
-  function hc(w){
+  const prevEntry2 = data.find(e=>e[0]===MO[MO.indexOf(S.month)-1]);
+  const prevWMap = prevEntry2 ? new Map(prevEntry2[3].map(([f,w])=>[f,w])) : new Map();
+  function hc(fund, w){
     if(!w) return 'transparent';
-    const t=w/maxW;
-    return `rgba(26,86,219,${(0.08+t*0.82).toFixed(2)})`;
+    const prev = prevWMap.get(fund);
+    const t = w/maxW;
+    if(prev===undefined) return `rgba(14,159,110,${(0.1+t*0.7).toFixed(2)})`; // new entry: green
+    if(w > prev*1.05) return `rgba(14,159,110,${(0.1+t*0.7).toFixed(2)})`; // increased: green
+    if(w < prev*0.95) return `rgba(224,36,36,${(0.1+t*0.7).toFixed(2)})`; // decreased: red
+    return `rgba(26,86,219,${(0.08+t*0.72).toFixed(2)})`; // unchanged: blue
   }
   const header=`<tr><th class="rlbl">Fund / Month</th>${MO.map(m=>`<th>${m}</th>`).join('')}</tr>`;
   const body=fl.map(fund=>{
@@ -1203,16 +1788,32 @@ function renderHeatmap() {
       const fw=e[3].find(([f])=>f===fund);
       if(!fw) return '<td></td>';
       const pct=(fw[1]*100).toFixed(2);
-      return `<td style="background:${hc(fw[1])}" title="${escAttr(fund)} · ${m} · ${pct}%">${pct}</td>`;
+      return `<td style="background:${hc(fund,fw[1])}" title="${escAttr(fund)} · ${m} · ${pct}%">${pct}</td>`;
     }).join('');
     return `<tr><td class="rlbl" title="${escAttr(fund)}">${escHtml(fund)}</td>${cells}</tr>`;
   }).join('');
   pane.innerHTML=`<div class="card">
     <div class="ctitle">🌡️ Heatmap — Fund × Month (${escHtml(S.inst)})</div>
-    <div id="hmwrap" style="overflow:auto;max-height:420px">
+    <div class="hm-controls">
+      <input type="text" placeholder="Filter funds…" value="${escAttr(hmSearch)}" oninput="hmSearch=this.value;renderHeatmap()">
+      <button class="hm-sort-btn ${hmSort==='weight'?'act':''}" onclick="hmSort='weight';renderHeatmap()">By Weight</button>
+      <button class="hm-sort-btn ${hmSort==='alpha'?'act':''}" onclick="hmSort='alpha';renderHeatmap()">A–Z</button>
+      <button class="hm-sort-btn ${hmSort==='first'?'act':''}" onclick="hmSort='first';renderHeatmap()">First Entry</button>
+      <span style="margin-left:auto;font-size:9.5px;color:var(--text3)">${fl.length} funds</span>
+    </div>
+    <div id="hmwrap" style="overflow:auto;max-height:390px">
       <table class="hmtbl"><thead>${header}</thead><tbody>${body}</tbody></table>
     </div>
-    <div class="hmleg"><span>0%</span><div class="hmgrad"></div><span>${(maxW*100).toFixed(1)}%</span><span style="margin-left:8px">— = not held</span></div>
+    <div class="hmleg">
+      <span style="color:var(--accent2)">↑ increased</span>
+      <div style="width:50px;height:7px;border-radius:3px;background:rgba(14,159,110,0.7)"></div>
+      <span style="color:var(--accent)">= unchanged</span>
+      <div style="width:50px;height:7px;border-radius:3px;background:rgba(26,86,219,0.5)"></div>
+      <span style="color:var(--danger)">↓ decreased</span>
+      <div style="width:50px;height:7px;border-radius:3px;background:rgba(224,36,36,0.6)"></div>
+      <span style="color:var(--accent2)">🟢 new entry</span>
+      <span style="margin-left:auto;font-size:9px;color:var(--text3)">— = not held · max weight ${(maxW*100).toFixed(1)}%</span>
+    </div>
   </div>`;
 }
 
@@ -1355,6 +1956,8 @@ function applyQF(v) {
 function switchTab(btn) {
   document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
+  // Also scroll tab into view on mobile
+  btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
   S.tab=btn.dataset.tab;
   if(S.inst || ['signals','sectors','firstmover','ai','anomaly','diff'].includes(S.tab)) renderAll();
   updateHash();
@@ -1398,8 +2001,9 @@ function renderSignals() {
   const pane = document.getElementById('tab-signals');
   const m = S.month;
   const sig = SIG[m];
+  console.log('[Signals] month='+m+' SIG keys='+Object.keys(SIG).length+' sig='+!!sig+(sig?' freshBets='+sig.freshBets?.length+' note='+!!sig.note:''));
   if (!sig) {
-    pane.innerHTML = '<div class="card" style="color:var(--text3);font-size:11px;padding:20px">No signal data for this month.</div>';
+    pane.innerHTML = '<div class="card" style="color:var(--text3);font-size:11px;padding:20px">No signal data for this month (SIG['+m+'] undefined). SIG has '+Object.keys(SIG).length+' months loaded.</div>';
     return;
   }
 
@@ -1407,7 +2011,10 @@ function renderSignals() {
     pane.innerHTML = '<div class="card" style="font-size:11px;color:var(--text3);padding:16px">ℹ️ '+sig.note+'</div>';
     return;
   }
-  const freshBets = (sig.freshBets||[]).filter(x => x.newCount >= S.sigThresh);
+  const freshBets = (sig.freshBets||[])
+    .filter(x => x.newCount >= S.sigThresh)
+    .map(x => ({...x, _score: getConvictionScore(x.newCount, x.avgNewWeight)}))
+    .sort((a,b) => b._score - a._score);
   const exitAlerts = (sig.exitAlerts||[]).filter(x => x.exitCount >= S.sigThresh);
   const maxFresh = freshBets.length ? freshBets[0].newCount : 1;
   const maxExit  = exitAlerts.length ? exitAlerts[0].exitCount : 1;
@@ -1431,46 +2038,58 @@ function renderSignals() {
     return `<span class="trend-spark">${bars}</span>`;
   }
 
+  // Conviction score: normalise (count * avgWeight) to 0-100
+  const maxConviction = freshBets.length ? Math.max(...freshBets.map(s=>s.newCount*s.avgNewWeight)) : 1;
+
   function buildFreshRows(items) {
     if (!items.length) return '<div style="padding:16px;text-align:center;color:var(--text3);font-size:10.5px">No fresh bets meeting threshold</div>';
-    return items.map((s, i) => {
-      const bp = ((s.newCount / maxFresh) * 100).toFixed(0);
+    // Sort by conviction score
+    const sorted = [...items].sort((a,b)=>(b.newCount*b.avgNewWeight)-(a.newCount*a.avgNewWeight));
+    return sorted.map((s, i) => {
+      const conviction = Math.round((s.newCount*s.avgNewWeight/maxConviction)*100);
+      const cvCls = conviction>66?'cv-high':conviction>33?'cv-med':'cv-low';
       const funds_preview = s.newFunds.slice(0,3).join(', ') + (s.newFunds.length>3 ? ` +${s.newFunds.length-3}` : '');
       return `<div class="sig-row" data-action="sel-fund" data-val="${escAttr(s.inst)}">
         <div class="sig-rank fresh">${i+1}</div>
         <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
             <span class="sig-name" title="${escAttr(s.inst)}">${escHtml(s.inst)}</span>
-            <span class="sig-badge fresh">+${s.newCount} new</span>
+            <span class="sig-badge fresh">+${s.newCount} funds</span>
+            <span class="sig-meta">${(s.avgNewWeight*100).toFixed(2)}% avg</span>
           </div>
-          <div style="font-size:9px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escAttr(funds_preview)}">${escHtml(funds_preview)}</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escHtml(funds_preview)}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
-          <span class="sig-meta">${(s.avgNewWeight*100).toFixed(2)}% avg</span>
-          <div class="sig-bar-track"><div class="sig-bar-fill fresh" style="width:${bp}%"></div></div>
+          <span class="conviction-score">${conviction}</span>
+          <div class="conviction-bar"><div class="conviction-fill ${cvCls}" style="width:${conviction}%"></div></div>
         </div>
         ${sparkBars(s.inst, 'fresh')}
       </div>`;
     }).join('');
   }
 
+  const maxExitConviction = exitAlerts.length ? Math.max(...exitAlerts.map(s=>s.exitCount*s.avgExitWeight)) : 1;
+
   function buildExitRows(items) {
     if (!items.length) return '<div style="padding:16px;text-align:center;color:var(--text3);font-size:10.5px">No exit alerts meeting threshold</div>';
-    return items.map((s, i) => {
-      const bp = ((s.exitCount / maxExit) * 100).toFixed(0);
+    const sorted = [...items].sort((a,b)=>(b.exitCount*b.avgExitWeight)-(a.exitCount*a.avgExitWeight));
+    return sorted.map((s, i) => {
+      const conviction = Math.round((s.exitCount*s.avgExitWeight/maxExitConviction)*100);
+      const cvCls = conviction>66?'cv-high':conviction>33?'cv-med':'cv-low';
       const funds_preview = s.exitFunds.slice(0,3).join(', ') + (s.exitFunds.length>3 ? ` +${s.exitFunds.length-3}` : '');
       return `<div class="sig-row" data-action="sel-fund" data-val="${escAttr(s.inst)}">
         <div class="sig-rank exit">${i+1}</div>
         <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:6px">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
             <span class="sig-name" title="${escAttr(s.inst)}">${escHtml(s.inst)}</span>
-            <span class="sig-badge exit">-${s.exitCount} exits</span>
+            <span class="sig-badge exit">-${s.exitCount} funds</span>
+            <span class="sig-meta">${(s.avgExitWeight*100).toFixed(2)}% was</span>
           </div>
-          <div style="font-size:9px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escAttr(funds_preview)}">${escHtml(funds_preview)}</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escHtml(funds_preview)}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
-          <span class="sig-meta">${(s.avgExitWeight*100).toFixed(2)}% was</span>
-          <div class="sig-bar-track"><div class="sig-bar-fill exit" style="width:${bp}%"></div></div>
+          <span class="conviction-score">${conviction}</span>
+          <div class="conviction-bar"><div class="conviction-fill ${cvCls}" style="width:${conviction}%"></div></div>
         </div>
         ${sparkBars(s.inst, 'exit')}
       </div>`;
@@ -2619,6 +3238,426 @@ function openSettings() {
       </div>
     </div>`;
   document.getElementById('moverlay').classList.add('open');
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UX UPGRADES v4
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── AUTH TAB SWITCH ───────────────────────────────────────────────────────
+function switchAuthTab(tab, btn) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('act'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('act'));
+  btn.classList.add('act');
+  document.getElementById('auth-' + tab).classList.add('act');
+  document.getElementById('login-err').style.display = 'none';
+}
+
+// ── SIGNUP ────────────────────────────────────────────────────────────────
+async function attemptSignup() {
+  const name   = document.getElementById('s-name').value.trim();
+  const user   = document.getElementById('s-user').value.trim();
+  const pass   = document.getElementById('s-pass').value;
+  const code   = document.getElementById('s-code').value.trim();
+  const errEl  = document.getElementById('login-err');
+  errEl.style.display = 'none';
+
+  if (!name || !user || !pass || !code) {
+    errEl.textContent = 'All fields are required';
+    errEl.style.display = 'block'; return;
+  }
+  if (pass.length < 8) {
+    errEl.textContent = 'Password must be at least 8 characters';
+    errEl.style.display = 'block'; return;
+  }
+  if (!/^[a-zA-Z0-9_]+$/.test(user)) {
+    errEl.textContent = 'Username can only contain letters, numbers and underscores';
+    errEl.style.display = 'block'; return;
+  }
+
+  const btn = document.querySelector('#auth-signup .login-btn');
+  btn.textContent = 'Creating account…'; btn.disabled = true;
+
+  try {
+    // Verify admin code and check username availability
+    const res = await fetch(DATA_BASE + '/users.json?t=' + Date.now());
+    if (!res.ok) throw new Error('Could not reach server');
+    const data = await res.json();
+
+    // Check admin code
+    const adminCode = data.settings?.signupCode || 'AMC2024';
+    const codeHash = await sha256(code);
+    const adminCodeHash = await sha256(adminCode);
+    if (codeHash !== adminCodeHash && code !== adminCode) {
+      throw new Error('Invalid admin code. Contact your admin.');
+    }
+
+    // Check username not taken
+    if (data.users.find(u => u.username.toLowerCase() === user.toLowerCase())) {
+      throw new Error('Username already taken. Choose another.');
+    }
+
+    const passHash = await sha256(pass);
+    const newUser = { username: user, passwordHash: passHash, role: 'viewer', name, createdAt: new Date().toISOString().slice(0,10) };
+
+    // Show instructions since we can't write to GitHub from browser
+    document.getElementById('login-err').style.cssText = 'display:block;color:var(--accent2);font-size:10px;line-height:1.6;';
+    document.getElementById('login-err').innerHTML =
+      `<b>Account ready!</b> Ask your admin to add this to users.json:<br>` +
+      `<code style="font-size:9px;word-break:break-all;background:var(--surface2);padding:4px 6px;border-radius:4px;display:block;margin-top:4px">${JSON.stringify(newUser)}</code>`;
+    btn.textContent = 'Done'; btn.disabled = false;
+    return;
+  } catch(e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+    errEl.style.color = 'var(--danger)';
+  }
+  btn.textContent = 'Create Account'; btn.disabled = false;
+}
+
+// ── COMMAND PALETTE ───────────────────────────────────────────────────────
+let cmdIdx = -1;
+
+function openCmdPalette() {
+  document.getElementById('cmd-overlay').classList.add('open');
+  const inp = document.getElementById('cmd-input');
+  inp.value = '';
+  inp.focus();
+  renderCmdResults('');
+}
+
+function closeCmdPalette() {
+  document.getElementById('cmd-overlay').classList.remove('open');
+  cmdIdx = -1;
+}
+
+function renderCmdResults(q) {
+  const el = document.getElementById('cmd-results');
+  const qlo = q.toLowerCase().trim();
+
+  // Tab actions
+  const TABS = [
+    { label: 'Overview', tab: 'overview', icon: '📊' },
+    { label: 'Charts', tab: 'charts', icon: '📈' },
+    { label: 'Heatmap', tab: 'heatmap', icon: '🌡️' },
+    { label: 'Signals', tab: 'signals', icon: '🔥' },
+    { label: 'Sectors', tab: 'sectors', icon: '🔄' },
+    { label: 'First Mover', tab: 'firstmover', icon: '🥇' },
+    { label: 'AI Search', tab: 'ai', icon: '🤖' },
+    { label: 'Anomaly Detector', tab: 'anomaly', icon: '⚠️' },
+    { label: 'Fund Diff', tab: 'diff', icon: '📅' },
+    { label: 'Funds', tab: 'funds', icon: '🏦' },
+  ];
+
+  const tabHits = TABS.filter(t => !qlo || t.label.toLowerCase().includes(qlo));
+  const instHits = qlo.length >= 2 ? INSTS.filter(i => fuzzyMatch(i, qlo)).slice(0, 8) : [];
+
+  let html = '';
+
+  if (!qlo) {
+    html += `<div class="cmd-section-label">Quick Actions</div>`;
+    html += TABS.map((t,i) => `
+      <div class="cmd-item" data-cmd-tab="${escAttr(t.tab)}" data-idx="${i}">
+        <div class="ci-icon">${t.icon}</div>
+        <span class="ci-name">${escHtml(t.label)}</span>
+        <span class="ci-count" style="font-size:9px;color:var(--text3)">tab</span>
+      </div>`).join('');
+  } else {
+    if (instHits.length) {
+      html += `<div class="cmd-section-label">Instruments</div>`;
+      html += instHits.map((inst, i) => {
+        const data = ID[inst];
+        const latest = data ? data[data.length-1] : null;
+        const count = latest ? latest[1] : 0;
+        const sector = SMAP[inst] || '';
+        return `<div class="cmd-item" data-cmd-inst="${escAttr(inst)}" data-idx="${i}">
+          <div class="ci-icon">📈</div>
+          <span class="ci-name">${escHtml(inst)}</span>
+          <div class="ci-meta">
+            <span class="ci-count">${count}f</span>
+            ${sector ? `<span class="ci-sector">${escHtml(sector.slice(0,12))}</span>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+    }
+    if (tabHits.length) {
+      html += `<div class="cmd-section-label">Tabs</div>`;
+      html += tabHits.map((t, i) => `
+        <div class="cmd-item" data-cmd-tab="${escAttr(t.tab)}" data-idx="${instHits.length+i}">
+          <div class="ci-icon">${t.icon}</div>
+          <span class="ci-name">${escHtml(t.label)}</span>
+        </div>`).join('');
+    }
+    if (!instHits.length && !tabHits.length) {
+      html = `<div class="cmd-empty">No results for "${escHtml(q)}"</div>`;
+    }
+  }
+
+  el.innerHTML = html;
+  cmdIdx = -1;
+  syncCmdActive();
+}
+
+function syncCmdActive() {
+  const items = document.querySelectorAll('#cmd-results .cmd-item');
+  items.forEach((el, i) => el.classList.toggle('act', i === cmdIdx));
+  if (cmdIdx >= 0 && items[cmdIdx]) items[cmdIdx].scrollIntoView({ block: 'nearest' });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cmdInp = document.getElementById('cmd-input');
+  if (!cmdInp) return;
+
+  cmdInp.addEventListener('input', () => renderCmdResults(cmdInp.value));
+
+  cmdInp.addEventListener('keydown', e => {
+    const items = document.querySelectorAll('#cmd-results .cmd-item');
+    if (e.key === 'ArrowDown') { e.preventDefault(); cmdIdx = Math.min(cmdIdx+1, items.length-1); syncCmdActive(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); cmdIdx = Math.max(cmdIdx-1, -1); syncCmdActive(); }
+    else if (e.key === 'Enter') {
+      const target = cmdIdx >= 0 ? items[cmdIdx] : (items.length === 1 ? items[0] : null);
+      if (target) executeCmdItem(target);
+    }
+    else if (e.key === 'Escape') closeCmdPalette();
+  });
+
+  document.getElementById('cmd-results').addEventListener('click', e => {
+    const item = e.target.closest('.cmd-item');
+    if (item) executeCmdItem(item);
+  });
+});
+
+function executeCmdItem(el) {
+  const inst = el.dataset.cmdInst;
+  const tab  = el.dataset.cmdTab;
+  if (inst) { selectInst(inst); closeCmdPalette(); switchTabName('overview'); }
+  else if (tab) { switchTabName(tab); closeCmdPalette(); }
+}
+
+// Keyboard shortcut: Cmd+K or /
+window.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCmdPalette(); }
+});
+
+// ── SMART EMPTY DASHBOARD ─────────────────────────────────────────────────
+function renderEmptyDashboard() {
+  const grid = document.getElementById('empty-grid');
+  if (!grid || !Object.keys(ID).length) return;
+
+  const m = S.month;
+
+  // Top 10 most held instruments
+  const topInsts = Object.entries(ID)
+    .map(([inst, monthly]) => {
+      const e = monthly.find(x=>x[0]===m) || monthly[monthly.length-1];
+      return e ? { inst, count: e[1], avgW: e[2] } : null;
+    })
+    .filter(Boolean)
+    .sort((a,b) => b.count - a.count)
+    .slice(0, 10);
+
+  // Top fresh bets
+  const freshBets = (SIG[m]?.freshBets || []).slice(0, 6);
+  const exitAlerts = (SIG[m]?.exitAlerts || []).slice(0, 6);
+
+  // Sector snapshot
+  const sectorData = SR.rotation?.[m] || {};
+  const topSectors = Object.entries(sectorData)
+    .filter(([s]) => !['Treasury Bills','Government Securities','Corporate Bonds','Other'].includes(s))
+    .sort((a,b) => b[1].avgW - a[1].avgW)
+    .slice(0, 6);
+
+  grid.innerHTML = `
+    <div class="empty-card">
+      <div class="empty-card-title">🏆 Most Held Stocks — ${m}</div>
+      ${topInsts.map((x,i) => `
+        <div class="top-inst-row" data-action="sel-fund" data-val="${escAttr(x.inst)}">
+          <span class="ti-rank">${i+1}</span>
+          <span class="ti-name">${escHtml(x.inst)}</span>
+          <span class="ti-val">${x.count}f · ${(x.avgW*100).toFixed(1)}%</span>
+        </div>`).join('')}
+    </div>
+
+    <div class="empty-card">
+      <div class="empty-card-title">🔥 Fresh Bets — ${m}</div>
+      ${freshBets.length ? freshBets.map((s,i) => `
+        <div class="top-inst-row" data-action="sel-fund" data-val="${escAttr(s.inst)}">
+          <span class="ti-rank">${i+1}</span>
+          <span class="ti-name">${escHtml(s.inst)}</span>
+          <span class="ti-val" style="color:var(--accent2)">+${s.newCount}f</span>
+        </div>`).join('') :
+        '<div style="padding:10px;color:var(--text3);font-size:10.5px;text-align:center">No signals this month</div>'}
+    </div>
+
+    <div class="empty-card">
+      <div class="empty-card-title">🔴 Exit Alerts — ${m}</div>
+      ${exitAlerts.length ? exitAlerts.map((s,i) => `
+        <div class="top-inst-row" data-action="sel-fund" data-val="${escAttr(s.inst)}">
+          <span class="ti-rank">${i+1}</span>
+          <span class="ti-name">${escHtml(s.inst)}</span>
+          <span class="ti-val" style="color:var(--danger)">-${s.exitCount}f</span>
+        </div>`).join('') :
+        '<div style="padding:10px;color:var(--text3);font-size:10.5px;text-align:center">No exits this month</div>'}
+    </div>
+
+    <div class="empty-card">
+      <div class="empty-card-title">🔄 Top Sectors — ${m}</div>
+      ${topSectors.map(([s,v],i) => `
+        <div class="top-inst-row" style="cursor:default">
+          <span class="ti-rank">${i+1}</span>
+          <span class="ti-name">${escHtml(s)}</span>
+          <span class="ti-val">${v.avgW.toFixed(1)}%</span>
+        </div>`).join('')}
+    </div>
+  `;
+
+  // Show empty state
+  const emptyEl = document.getElementById('empty');
+  if (emptyEl) emptyEl.style.display = 'flex';
+}
+
+// ── USER MANAGEMENT (admin only) ─────────────────────────────────────────
+async function openUserManagement() {
+  document.getElementById('mtitle').textContent = '👥 User Management';
+  document.getElementById('mbody').innerHTML = '<div class="ai-thinking">Loading users…</div>';
+  document.getElementById('moverlay').classList.add('open');
+  try {
+    const res = await fetch(DATA_BASE + '/users.json?t=' + Date.now());
+    const data = await res.json();
+    const users = data.users || [];
+    const signupCode = data.settings?.signupCode || 'AMC2026';
+    const rows = users.map(u => `
+      <div class="user-row">
+        <div class="user-avatar">${(u.name||u.username)[0].toUpperCase()}</div>
+        <div class="user-info">
+          <div class="user-name">${escHtml(u.name||u.username)}</div>
+          <div class="user-meta">@${escHtml(u.username)} · ${u.role||'viewer'} · Joined ${u.createdAt||'—'}</div>
+        </div>
+        <span class="user-badge ${u.role==='admin'?'ub-admin':'ub-viewer'}">${u.role||'viewer'}</span>
+      </div>`).join('');
+    document.getElementById('mbody').innerHTML = `
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Admin Signup Code</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <code style="flex:1;padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:13px;font-family:var(--mono);border:1px solid var(--border);letter-spacing:.1em">${escHtml(signupCode)}</code>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText('${escAttr(signupCode)}');this.textContent='Copied ✓';setTimeout(()=>this.textContent='Copy',2000)">Copy</button>
+        </div>
+        <div style="font-size:9.5px;color:var(--text3);margin-top:6px;line-height:1.6">
+          Share this code with new users. They enter it on the Create Account screen to register.
+          To change the code, edit <code>amc-data/users.json</code> → <code>settings.signupCode</code>.
+        </div>
+      </div>
+      <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">
+        All Users (${users.length})
+      </div>
+      <div style="max-height:300px;overflow-y:auto">${rows}</div>
+      <div style="margin-top:14px;padding:12px;background:var(--surface2);border-radius:7px;border:1px solid var(--border)">
+        <div style="font-size:10px;font-weight:600;color:var(--text2);margin-bottom:6px">Adding new users</div>
+        <div style="font-size:9.5px;color:var(--text3);line-height:1.8">
+          1. User signs up on the Create Account screen with the code above<br>
+          2. They receive a JSON snippet — ask them to send it to you<br>
+          3. Add the snippet to <code style="background:var(--surface);padding:1px 5px;border-radius:3px;font-family:var(--mono)">amc-data/users.json</code> and push to GitHub<br>
+          4. User can log in immediately
+        </div>
+      </div>`;
+  } catch(e) {
+    document.getElementById('mbody').innerHTML = `<div style="color:var(--danger);font-size:11px;padding:12px">⚠ ${escHtml(e.message)}</div>`;
+  }
+}
+
+// ── WATERFALL: average reference line ────────────────────────────────────
+// Runs after drawWaterfall to overlay the avg line
+function addWaterfallAvgLine() {
+  const c = document.getElementById('wfc');
+  if (!c || !S.inst) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const data = ID[S.inst];
+  if (!data || data.length < 2) return;
+  const changes = [];
+  for (let i = 1; i < MO.length; i++) {
+    const p = data.find(e => e[0]===MO[i-1]);
+    const cu = data.find(e => e[0]===MO[i]);
+    if (p || cu) changes.push((cu?cu[1]:0)-(p?p[1]:0));
+  }
+  if (!changes.length) return;
+  const avg = changes.reduce((a,b)=>a+b,0)/changes.length;
+  const maxA = Math.max(1,...changes.map(c=>Math.abs(c)));
+  const pad = {t:18,r:12,b:28,l:32};
+  const cH = H-pad.t-pad.b;
+  const zero = pad.t+cH/2;
+  const yAvg = zero-(avg/maxA)*(cH/2)*0.9;
+  ctx.save();
+  ctx.beginPath();
+  ctx.setLineDash([5,4]);
+  ctx.strokeStyle='rgba(217,119,6,0.7)';
+  ctx.lineWidth=1.5;
+  ctx.moveTo(pad.l,yAvg);
+  ctx.lineTo(W-pad.r,yAvg);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#d97706';
+  ctx.font='bold 8px DM Mono,monospace';
+  ctx.textAlign='right';
+  ctx.fillText('avg '+(avg>=0?'+':'')+avg.toFixed(1), W-pad.r-2, yAvg-3);
+  ctx.restore();
+}
+
+// ── MOBILE: swipe to open/close sidebar ──────────────────────────────────
+(function setupMobileSwipe() {
+  let startX = 0, startY = 0;
+  document.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dy) > Math.abs(dx)) return; // vertical swipe — ignore
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    if (dx < -60 && !sidebar.classList.contains('collapsed')) {
+      sidebar.classList.add('collapsed');
+    } else if (dx > 60 && sidebar.classList.contains('collapsed')) {
+      sidebar.classList.remove('collapsed');
+    }
+  }, {passive:true});
+})();
+
+
+// ── MISSING FUNCTIONS ─────────────────────────────────────────────────────
+
+
+// Conviction score: composite of count and weight (0–100)
+function getConvictionScore(newCount, avgWeight) {
+  const countScore  = Math.min(1, newCount / 15);       // 15+ funds = max
+  const weightScore = Math.min(1, (avgWeight*100) / 4); // 4%+ avg = max
+  return Math.round((countScore * 0.45 + weightScore * 0.55) * 100);
+}
+
+// Skeleton screen for overview tab while instrument loads
+function showOverviewSkeleton() {
+  const pane = document.getElementById('tab-overview');
+  if (!pane) return;
+  pane.style.display = 'flex';
+  pane.innerHTML = `
+    <div class="mrow">
+      ${[1,2,3,4].map(()=>`
+        <div class="mcrd">
+          <div class="skeleton" style="height:10px;width:55%;border-radius:4px;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:26px;width:70%;border-radius:4px;margin-bottom:6px"></div>
+          <div class="skeleton" style="height:9px;width:80%;border-radius:4px"></div>
+        </div>`).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="card"><div class="skeleton" style="height:12px;width:60%;border-radius:4px;margin-bottom:10px"></div>${[1,2,3].map(()=>`<div class="skeleton sk-line" style="border-radius:4px"></div>`).join('')}</div>
+      <div class="card"><div class="skeleton" style="height:12px;width:60%;border-radius:4px;margin-bottom:10px"></div><div class="skeleton" style="height:44px;border-radius:4px"></div></div>
+    </div>
+    <div class="card">
+      <div class="skeleton" style="height:12px;width:40%;border-radius:4px;margin-bottom:12px"></div>
+      ${[1,2,3,4,5].map(()=>`<div style="display:flex;gap:10px;margin-bottom:8px"><div class="skeleton" style="height:11px;flex:1;border-radius:4px"></div><div class="skeleton" style="height:11px;width:60px;border-radius:4px"></div></div>`).join('')}
+    </div>`;
 }
 
 </script>
