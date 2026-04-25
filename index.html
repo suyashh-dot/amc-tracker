@@ -976,14 +976,15 @@ function getSession() {
     const s = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
     if (!s) return null;
     if (Date.now() > s.expires) { localStorage.removeItem(AUTH_KEY); return null; }
-    return s;
+    return s; // contains {username, name, role, expires}
   } catch { return null; }
 }
 
-function setSession(username, name) {
+function setSession(username, name, role='viewer') {
+  const sessionHours = 24; // configurable via users.json settings.sessionHours
   const session = {
-    username, name,
-    expires: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+    username, name, role,
+    expires: Date.now() + (sessionHours * 60 * 60 * 1000)
   };
   localStorage.setItem(AUTH_KEY, JSON.stringify(session));
 }
@@ -1014,7 +1015,7 @@ async function attemptLogin() {
       errEl.style.display = 'block';
       btn.textContent = 'Sign In'; btn.disabled = false; return;
     }
-    const sess = setSession(username, user.name || username);
+    const sess = setSession(username, user.name || username, user.role || 'viewer');
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('user-label').textContent = user.name || username;
     if (user.role === 'admin') {
@@ -1128,7 +1129,7 @@ window.addEventListener('load', () => {
 // ── STATE ─────────────────────────────────────────────────────────────────
 const S = {
   inst: null,
-  month: 'Feb-26', // overwritten after metadata loads
+  month: '', // set from metadata.latestMonth on load
   diffFund: '',
   diffMonthA: '',
   diffMonthB: '',
@@ -1137,6 +1138,8 @@ const S = {
   fmMinFunds: 10,
   sigThresh: 2,
   aiLoading: false,
+  hmSearch: '',
+  hmSort: 'weight',
   multi: [],
   tab: 'overview',
   qf: null,
@@ -1287,6 +1290,7 @@ function setupSearch() {
   const clr = document.getElementById('srchclr');
   let timer, aidx = -1;
 
+  let _searchTimer;
   inp.addEventListener('input', () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -1357,9 +1361,19 @@ function renderAll() {
     else if (_standaloneTab==='diff') renderDiff();
     return;
   }
+  // If no instrument selected on inst-required tabs, show empty state
+  const instRequired = ['overview','charts','heatmap','funds'];
+  if (!S.inst && instRequired.includes(S.tab)) {
+    const emEl2 = document.getElementById('empty');
+    if (emEl2) { emEl2.style.display = 'flex'; renderEmptyDashboard(); }
+    document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
+    return;
+  }
+
   const emEl2 = document.getElementById('empty'); if(emEl2) emEl2.style.display = 'none';
   document.querySelectorAll('.tabp').forEach(p => p.style.display='none');
   const pane = document.getElementById('tab-'+S.tab);
+  if (!pane) return;
   pane.style.display = 'flex';
 
   const months = S.multi.length ? S.multi : [S.month];
@@ -1390,15 +1404,21 @@ function aggData(inst, months) {
 }
 
 function updTopbar(inst, md) {
-  document.getElementById('tbtitle').textContent = inst;
+  document.getElementById('tbtitle').textContent = inst || 'AMC Portfolio Tracker';
   const m = S.multi.length ? S.multi.join(', ') : S.month;
-  document.getElementById('tbsub').textContent = `${md.holderCount} funds · avg ${(md.avgWeight*100).toFixed(2)}% · ${m}`;
+  document.getElementById('tbsub').textContent = inst
+    ? `${md.holderCount} funds · avg ${(md.avgWeight*100).toFixed(2)}% · ${m}`
+    : `${META.totalInstruments||''} instruments · ${META.totalFunds||''} funds · ${m}`;
 }
 
 // ── OVERVIEW ──────────────────────────────────────────────────────────────
 function renderOverview(md, months) {
   const pane = document.getElementById('tab-overview');
   const data = ID[S.inst];
+  if (!data) {
+    pane.innerHTML = '<div class="card" style="color:var(--text3);padding:20px;font-size:11px">Select an instrument to view overview.</div>';
+    return;
+  }
   const ci = MO.indexOf(S.month);
   const prevM = ci>0 ? MO[ci-1] : null;
   const prevE = prevM ? data.find(e=>e[0]===prevM) : null;
@@ -1959,13 +1979,13 @@ function switchTab(btn) {
   // Also scroll tab into view on mobile
   btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
   S.tab=btn.dataset.tab;
-  if(S.inst || ['signals','sectors','firstmover','ai','anomaly','diff'].includes(S.tab)) renderAll();
+  renderAll();
   updateHash();
 }
 function switchTabName(name) {
   S.tab=name;
   document.querySelectorAll('.tabbtn').forEach(b=>b.classList.toggle('act',b.dataset.tab===name));
-  if(S.inst) renderAll();
+  renderAll();
 }
 
 // ── EXPORT ────────────────────────────────────────────────────────────────
